@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
   <fieldset name="general">
-    <field 
-      name="id" 
-      type="text" 
-      readonly="true" 
-      class="readonly" 
-      default="0" 
+    <field
+      name="id"
+      type="text"
+      readonly="true"
+      class="readonly"
+      default="0"
       description="JGLOBAL_FIELD_ID_DESC"/>
-    <field 
+    <field
       name="ordering"/>
-    <field 
-      name="state" 
-      default="1" 
-      type="list" 
-      label="JSTATUS" 
-      description="JFIELD_PUBLISHED_DESC" 
-      class="inputbox" 
+    <field
+      name="state"
+      default="1"
+      type="list"
+      label="JSTATUS"
+      description="JFIELD_PUBLISHED_DESC"
+      class="inputbox"
       size="1">
         <option value="1">JPUBLISHED</option>
         <option value="0">JUNPUBLISHED</option>
         <option value="2">JARCHIVED</option>
         <option value="-2">JTRASHED</option>
     </field>
-    <field 
-      name="created_by" 
-      type="createdby" 
-      default="0" 
-      label="COM_TEMPUS_SONG_CREATED_BY_LBL" 
-      description="COM_TEMPUS_SONG_CREATED_BY_DESC" 
-      hidden="true" 
+    <field
+      name="created_by"
+      type="createdby"
+      default="0"
+      label="COM_TEMPUS_SONG_CREATED_BY_LBL"
+      description="COM_TEMPUS_SONG_CREATED_BY_DESC"
+      hidden="true"
       hint="COM_TEMPUS_SONG_CREATED_BY_LBL"/>
-    <field 
-      name="modified_by" 
-      type="modifiedby" 
-      default="0" 
-      label="COM_TEMPUS_SONG_MODIFIED_BY_LBL" 
-      description="COM_TEMPUS_SONG_MODIFIED_BY_DESC" 
-      hidden="true" 
+    <field
+      name="modified_by"
+      type="modifiedby"
+      default="0"
+      label="COM_TEMPUS_SONG_MODIFIED_BY_LBL"
+      description="COM_TEMPUS_SONG_MODIFIED_BY_DESC"
+      hidden="true"
       hint="COM_TEMPUS_SONG_MODIFIED_BY_LBL"/>
-    <field 
-      name="version_note" 
-      type="text" 
-      label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" 
-      description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-      class="inputbox" 
-      size="45" 
+    <field
+      name="version_note"
+      type="text"
+      label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+      description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+      class="inputbox"
+      size="45"
       labelclass="control-label"/>
   </fieldset>
   <fieldset name="header">
-		<field 
-			name="title" 
-			type="text" 
+		<field
+			name="title"
+			type="text"
 			label="JGLOBAL_TITLE"
 			description="JFIELD_TITLE_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
-			required="true" 
+			required="true"
 		/>
 
-		<field 
-			name="alias" 
-			type="text" 
+		<field
+			name="alias"
+			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40" 
+			size="40"
 		/>
 
 		<field
@@ -88,14 +88,14 @@
 
   </fieldset>
   <fieldset name="hidden">
-    <field 
-      name="checked_out" 
-      type="hidden" 
+    <field
+      name="checked_out"
+      type="hidden"
       filter="unset"/>
-    <field 
-      name="checked_out_time" 
-      default="0000-00-00 00:00:00" 
-      type="hidden" 
+    <field
+      name="checked_out_time"
+      default="0000-00-00 00:00:00"
+      type="hidden"
       filter="unset"/>
   </fieldset>
   <fields name="documents">
@@ -105,52 +105,13 @@
         type="subform"
         label="COM_TEMPUS_SONG_FIELD_SHEET_LBL"
         description="COM_TEMPUS_SONG_FIELD_SHEET_DESC"
+        formsource="/administrator/components/com_tempus/models/forms/subform_song_files.xml"
+        groupByFieldset="true"
+        min="1"
+        max="15"
         multiple="true"
         layout="joomla.form.field.subform.repeatable-table"
-      >
-        <form>
-          <field
-            name="instrument"
-            type="list"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_DESC"
-          >
-            <option value="">- Selecciona Voz -</option>
-            <option value="1">Soprano</option>
-            <option value="2">Alto</option>
-            <option value="3">Tenor</option>
-            <option value="4">Bajo</option>
-          </field>
-          <field
-            name="divisi"
-            type="list"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_DESC"
-          >
-            <option value="">- Selecciona Div -</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </field>
-          <field
-            name="note"
-            type="textarea"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_NOTE_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_NOTE_DESC"
-            rows="3"
-            cols="30"
-          />
-          <field
-            name="userfile"
-            type="file"
-            accept=""
-            label="COM_TEMPUS_SONG_FIELD_SHEET_FILE_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_FILE_DESC"
-            message="Un puñetero error subiendo la partitura"
-          />
-        </form>
-      </field>
+      />
     </fieldset>
     <fieldset name="audios">
       <field
@@ -158,103 +119,28 @@
         type="subform"
         label="COM_TEMPUS_SONG_FIELD_AUDIOS_LBL"
         description="COM_TEMPUS_SONG_FIELD_AUDIOS_DESC"
+        formsource="/administrator/components/com_tempus/models/forms/subform_song_files.xml"
+        groupByFieldset="true"
         multiple="true"
+        min="1"
+        max="15"
         layout="joomla.form.field.subform.repeatable-table"
-      >
-        <form>
-          <field
-            name="instrument"
-            type="list"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_DESC"
-          >
-            <option value="">- Selecciona Voz -</option>
-            <option value="1">Soprano</option>
-            <option value="2">Alto</option>
-            <option value="3">Tenor</option>
-            <option value="4">Bajo</option>
-          </field>
-          <field
-            name="divisi"
-            type="list"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_DESC"
-          >
-            <option value="">- Selecciona Div -</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </field>
-          <field
-            name="note"
-            type="textarea"
-            label="COM_TEMPUS_SONG_FIELD_AUDIO_NOTE_LBL"
-            description="COM_TEMPUS_SONG_FIELD_AUDIO_NOTE_DESC"
-            rows="3"
-            cols="30"
-          />
-          <field
-            name="userfile"
-            type="file"
-            accept="audio/*"
-            label="COM_TEMPUS_SONG_FIELD_AUDIO_FILE_LBL"
-            description="COM_TEMPUS_SONG_FIELD_AUDIO_FILE_DESC"
-            message="Un puñetero error subiendo el audio"
-          />
-        </form>
-      </field>
+      />
     </fieldset>
+
     <fieldset name="videos">
       <field
         name="video"
         type="subform"
         label="COM_TEMPUS_SONG_FIELD_VIDEOS_LBL"
         description="COM_TEMPUS_SONG_FIELD_VIDEOS_DESC"
+        formsource="/administrator/components/com_tempus/models/forms/subform_song_urls.xml"
+        groupByFieldset="true"
         multiple="true"
+        min="1"
+        max="15"
         layout="joomla.form.field.subform.repeatable-table"
-      >
-        <form>
-          <field
-            name="instrument"
-            type="list"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_DESC"
-          >
-            <option value="">- Selecciona Voz -</option>
-            <option value="1">Soprano</option>
-            <option value="2">Alto</option>
-            <option value="3">Tenor</option>
-            <option value="4">Bajo</option>
-          </field>
-          <field
-            name="divisi"
-            type="list"
-            label="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_LBL"
-            description="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_DESC"
-          >
-            <option value="">- Selecciona Div -</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </field>
-          <field
-            name="note"
-            type="textarea"
-            label="COM_TEMPUS_SONG_FIELD_VIDEO_NOTE_LBL"
-            description="COM_TEMPUS_SONG_FIELD_VIDEO_NOTE_DESC"
-            rows="3"
-            cols="30"
-          />
-          <field
-            name="video_doc"
-            type="url"
-            label="COM_TEMPUS_SONG_FIELD_VIDEO_URL_LBL"
-            description="COM_TEMPUS_SONG_FIELD_VIDEO_URL_DESC"
-          />
-        </form>
-      </field>
+      />
     </fieldset>
   </fields>
 </form>

@@ -29,7 +29,6 @@ $document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
 <script type="text/javascript">
 	js = jQuery.noConflict();
 	js(document).ready(function () {
-		
 	});
 
 	Joomla.submitbutton = function (task) {
@@ -37,9 +36,7 @@ $document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
 			Joomla.submitform(task, document.getElementById('song-form'));
 		}
 		else {
-			
 			if (task != 'song.cancel' && document.formvalidator.isValid(document.id('song-form'))) {
-				
 				Joomla.submitform(task, document.getElementById('song-form'));
 			}
 			else {
@@ -52,7 +49,7 @@ $document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
 <form
 	action="<?php echo JRoute::_('index.php?option=com_tempus&layout=edit&id=' . (int) $this->item->id); ?>"
 	method="post" enctype="multipart/form-data" name="adminForm" id="song-form" class="form-validate form-horizontal">
-	
+
 	<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
 	<input type="hidden" name="jform[ordering]" value="<?php echo $this->item->ordering; ?>" />
 	<input type="hidden" name="jform[state]" value="<?php echo $this->item->state; ?>" />

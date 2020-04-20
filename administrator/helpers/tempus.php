@@ -87,5 +87,18 @@ class TempusHelper
 
 		return $result;
 	}
+
+	public static function getVoices()
+	{
+		$voices = array(
+			'0' => '- Selecciona Voz -',
+			'1' => 'Sopranos',
+			'2' => 'Altos',
+			'3' => 'Tenores',
+			'4' => 'Bajos',
+		);
+
+		return $voices;
+	}
 }
 

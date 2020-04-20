@@ -87,7 +87,7 @@ class TempusModelSong extends AdminModel
                     )
             );
 
-            
+
 
             if (empty($form))
             {
@@ -119,7 +119,7 @@ class TempusModelSong extends AdminModel
 			}
 
 			$data = $this->item;
-                        
+
 		}
 
 		return $data;
@@ -136,7 +136,7 @@ class TempusModelSong extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-            
+
             if ($item = parent::getItem($pk))
             {
 				$registry = new Registry($item->documents);
@@ -144,7 +144,7 @@ class TempusModelSong extends AdminModel
             }
 
             return $item;
-            
+
 	}
 
 	/**
@@ -176,7 +176,7 @@ class TempusModelSong extends AdminModel
 
 		foreach ($pks as $pk)
 		{
-                    
+
 			if ($table->load($pk, true))
 			{
 				// Reset the id to create a new record.
@@ -186,7 +186,7 @@ class TempusModelSong extends AdminModel
 				{
 					throw new Exception($table->getError());
 				}
-				
+
 
 				// Trigger the before save event.
 				$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, true));
@@ -203,7 +203,7 @@ class TempusModelSong extends AdminModel
 			{
 				throw new Exception($table->getError());
 			}
-                    
+
 		}
 
 		// Clean cache
@@ -270,21 +270,21 @@ class TempusModelSong extends AdminModel
 		// Recorrer cada uno de los posibles ficheros
 		$userfiles = $userfiles['documents'];
 		// Recorrer cada subform
-		foreach ($userfiles as $subforms => $subform) 
+		foreach ($userfiles as $subforms => $subform)
 		{
 			// Recorrer cada línea del subform
-			foreach ($subform as $line => $value) 
+			foreach ($subform as $line => $value)
 			{
-				$userfile = $value['userfile'];
+				$userfile = $value['file'];
 
 				// If there is no uploaded file, we have a problem...
 				if (!is_array($userfile))
 				{
 					JError::raiseWarning('', Text::_('COM_TEMPUS_FILE_NO_FILE_SELECTED_MSG'));
-		
+
 					return false;
 				}
-		
+
 				// Is the PHP tmp directory missing?
 				if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 				{
@@ -292,10 +292,10 @@ class TempusModelSong extends AdminModel
 						'',
 						Text::_('COM_TEMPUS_FILE_WARNING_FILE_UPLOAD_ERROR_MSG') . '<br />' . Text::_('COM_TEMPUS_WARNINGS_TMP_UPLOAD_FOLDER_NOT_SET_MSG')
 					);
-		
+
 					return false;
 				}
-		
+
 				// Is the max upload size too small in php.ini?
 				if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 				{
@@ -303,10 +303,10 @@ class TempusModelSong extends AdminModel
 						'',
 						Text::_('COM_TEMPUS_FILE_WARNING_FILE_UPLOAD_ERROR_MSG') . '<br />' . Text::_('COM_TEMPUS_FILE_WARNINGS_SMALL_UPLOAD_SIZE_MSG')
 					);
-		
+
 					return false;
 				}
-		
+
 				// Check if there was a different problem uploading the file.
 				if ($userfile['error'] || $userfile['size'] < 1)
 				{
@@ -319,26 +319,27 @@ class TempusModelSong extends AdminModel
 				{
 					// Upload the file
 					$tmp_src  = $userfile['tmp_name'];
-					
+
 					// Check the file extension
-					if ($package['documents'][$subforms][$line] = $this->checkUpload($userfile['name'], $tmp_dest))
+					if ($this->checkUpload($userfile['name']))
 					{
 						$fileData = $this->uploadUserfile($tmp_src, $userfile['name']);
-						foreach ($fileData as $key => $value) {
+						foreach ($fileData as $key => $value)
+						{
 							$data['documents'][$subforms][$line][$key] = $value;
 						}
 					}
 				}
 
 			}
-		
+
 		}
 
 		return true;
 	}
 
 
-    protected function checkUpload($archivename, $tmp_dest)
+    protected function checkUpload($archivename)
     {
         // La primera verificación se deberá realizar en el archivo form.xml
         // Al campo "file" debemos colocar correctamente el accept="audio/*,video/*,image/*,application/excel,application/msword"
@@ -349,15 +350,15 @@ class TempusModelSong extends AdminModel
 
         // get the fileFormat key
         $allowedFormats = array('jpg', 'png', 'jpeg', 'mp3', 'pdf');
-        
+
         // Podemos incluir un parámetro en la configuración del componente para utilizar aquí
         //if(in_array($fileFormat, $this->formats[$this->formatType . '_formats']))
         //{
         // get allowed formats
         //   $allowedFormats = (array) $this->app_params->get($this->formatTypes . '_formats', null);
         //}
-        
-        
+
+
         // check the extension
         if (!in_array($fileFormat, $allowedFormats))
         {
@@ -367,23 +368,14 @@ class TempusModelSong extends AdminModel
             return false;
         }
 
-        // set Package Name
-        $package['packagename'] = $archivename;
-
-        // set the directory
-        $package['dir'] = $tmp_dest;
-
-        // set the format
-        $package['format'] = $fileFormat;
-
-        return $package;
+        return true;
     }
 
     /**
      * Clean up temporary uploaded file
-     * 
+     *
      * @param string $filename   Name of the uploaded file
-     * 
+     *
      * @return boolean True on success
      */
     protected function removeFile($filename)
@@ -399,16 +391,16 @@ class TempusModelSong extends AdminModel
             File::delete(Path::clean($filename));
         }
 	}
-	
+
 	protected function uploadUserfile($tmp_src, $filename)
 	{
-		$dest_path = "/images";
+		$dest_path = JPATH_ROOT . "/" . "pruebas";
 		$fileData['src_server'] = "local";
 		$fileData['fullpath'] = $dest_path . '/' . $filename;
 		$fileData['filename'] = $filename;
 
 		// Move uploaded file.
-		File::upload($tmp_src, $fileData['fullpath'], false, true);
+		File::upload($tmp_src, $fileData['fullpath'], false);
 
 		return $fileData;
 	}

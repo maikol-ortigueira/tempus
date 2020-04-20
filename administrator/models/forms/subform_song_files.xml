@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="instrument">
+		<field
+		name="instrument"
+		type="helperlist"
+		helper_getter="voices"
+		class="input-medium"
+		label="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_LBL"
+		description="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_DESC"
+		/>
+		<field
+			name="divisi"
+			type="list"
+			class="input-mini"
+			label="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_LBL"
+			description="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_DESC"
+		>
+		<option value="">--</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		</field>
+	</fieldset>
+	<fieldset name="note">
+		<field
+			name="note"
+			type="textarea"
+			label="COM_TEMPUS_SONG_FIELD_SHEET_NOTE_LBL"
+			description="COM_TEMPUS_SONG_FIELD_SHEET_NOTE_DESC"
+			rows="3"
+			cols="30"
+		/>
+	</fieldset>
+	<fieldset name="userfile">
+		<field
+			name="file"
+			type="file"
+			accept=""
+			label="COM_TEMPUS_SONG_FIELD_SHEET_FILE_LBL"
+			description="COM_TEMPUS_SONG_FIELD_SHEET_FILE_DESC"
+			message="Un puñetero error subiendo la partitura"
+		/>
+		<field
+			name="src_server"
+			type="hidden"
+		/>
+		<field
+			name="fullpath"
+			type="hidden"
+		/>
+		<field
+			name="filename"
+			type="appendtext"
+		/>
+	</fieldset>
+</form>
