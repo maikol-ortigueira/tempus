@@ -12,18 +12,21 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
 
-use \Joomla\CMS\Table\Table;
+use \Joomla\CMS\Filesystem\File;
+use \Joomla\CMS\Filesystem\Path;
 use \Joomla\CMS\Factory;
-use \Joomla\Registry\Registry;
 use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\CMS\Table\Table;
+use \Joomla\Registry\Registry;
 
 /**
  * Tempus model.
  *
  * @since  1.6
  */
-class TempusModelSong extends \Joomla\CMS\MVC\Model\AdminModel
+class TempusModelSong extends AdminModel
 {
 	/**
 	 * @var      string    The prefix to use with controller messages.
@@ -43,11 +46,6 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\AdminModel
 	 */
 	protected $item = null;
 
-        
-        
-        
-        
-        
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -238,5 +236,180 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\AdminModel
 				$table->ordering = $max + 1;
 			}
 		}
+	}
+
+	public function save($data)
+	{
+		$input = Factory::getApplication()->input;
+
+		// Bring the files
+		$files = $this->myUploads($input, $data);
+
+		parent::save($data);
+	}
+
+	/**
+	 * Works out an installation package from a HTTP upload.
+	 *
+	 * @return package definition or false on failure.
+	 */
+	protected function myUploads($input, &$data)
+	{
+
+        // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
+		$userfiles = $input->files->get('jform', null, 'array');
+
+		// Make sure that file uploads are enabled in php.
+		if (!(bool) ini_get('file_uploads'))
+		{
+			JError::raiseWarning('', Text::_('COM_TEMPUS_FILE_WARNINGFILE_MSG'));
+
+			return false;
+		}
+
+		// Recorrer cada uno de los posibles ficheros
+		$userfiles = $userfiles['documents'];
+		// Recorrer cada subform
+		foreach ($userfiles as $subforms => $subform) 
+		{
+			// Recorrer cada línea del subform
+			foreach ($subform as $line => $value) 
+			{
+				$userfile = $value['userfile'];
+
+				// If there is no uploaded file, we have a problem...
+				if (!is_array($userfile))
+				{
+					JError::raiseWarning('', Text::_('COM_TEMPUS_FILE_NO_FILE_SELECTED_MSG'));
+		
+					return false;
+				}
+		
+				// Is the PHP tmp directory missing?
+				if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
+				{
+					JError::raiseWarning(
+						'',
+						Text::_('COM_TEMPUS_FILE_WARNING_FILE_UPLOAD_ERROR_MSG') . '<br />' . Text::_('COM_TEMPUS_WARNINGS_TMP_UPLOAD_FOLDER_NOT_SET_MSG')
+					);
+		
+					return false;
+				}
+		
+				// Is the max upload size too small in php.ini?
+				if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
+				{
+					JError::raiseWarning(
+						'',
+						Text::_('COM_TEMPUS_FILE_WARNING_FILE_UPLOAD_ERROR_MSG') . '<br />' . Text::_('COM_TEMPUS_FILE_WARNINGS_SMALL_UPLOAD_SIZE_MSG')
+					);
+		
+					return false;
+				}
+		
+				// Check if there was a different problem uploading the file.
+				if ($userfile['error'] || $userfile['size'] < 1)
+				{
+					if ($userfile['error'] == 4)
+					{
+						JError::raiseWarning('', Text::_('COM_TEMPUS_FILE_WARNING_FILE_UPLOAD_ERROR_MSG'));
+					}
+				}
+				else
+				{
+					// Upload the file
+					$tmp_src  = $userfile['tmp_name'];
+					
+					// Check the file extension
+					if ($package['documents'][$subforms][$line] = $this->checkUpload($userfile['name'], $tmp_dest))
+					{
+						$fileData = $this->uploadUserfile($tmp_src, $userfile['name']);
+						foreach ($fileData as $key => $value) {
+							$data['documents'][$subforms][$line][$key] = $value;
+						}
+					}
+				}
+
+			}
+		
+		}
+
+		return true;
+	}
+
+
+    protected function checkUpload($archivename, $tmp_dest)
+    {
+        // La primera verificación se deberá realizar en el archivo form.xml
+        // Al campo "file" debemos colocar correctamente el accept="audio/*,video/*,image/*,application/excel,application/msword"
+        // Esto permitirá aceptar solamente los tipos de archivo indicados en el campo accept, independientemente de la extensión del archivo cargado
+
+        // get the file format
+        $fileFormat = strtolower(pathinfo($archivename, PATHINFO_EXTENSION));
+
+        // get the fileFormat key
+        $allowedFormats = array('jpg', 'png', 'jpeg', 'mp3', 'pdf');
+        
+        // Podemos incluir un parámetro en la configuración del componente para utilizar aquí
+        //if(in_array($fileFormat, $this->formats[$this->formatType . '_formats']))
+        //{
+        // get allowed formats
+        //   $allowedFormats = (array) $this->app_params->get($this->formatTypes . '_formats', null);
+        //}
+        
+        
+        // check the extension
+        if (!in_array($fileFormat, $allowedFormats))
+        {
+            // Cleanup the import files
+            $this->removeFile($archivename);
+            $this->errorMessage = Text::_('COM_TEMPUS_DOES_NOT_HAVE_A_VALID_FILE_TYPE');
+            return false;
+        }
+
+        // set Package Name
+        $package['packagename'] = $archivename;
+
+        // set the directory
+        $package['dir'] = $tmp_dest;
+
+        // set the format
+        $package['format'] = $fileFormat;
+
+        return $package;
+    }
+
+    /**
+     * Clean up temporary uploaded file
+     * 
+     * @param string $filename   Name of the uploaded file
+     * 
+     * @return boolean True on success
+     */
+    protected function removeFile($filename)
+    {
+        // Is the filename a valid file?
+        if (is_file($filename))
+        {
+            File::delete($filename);
+        }
+        elseif (is_file(Path::clean($filename)))
+        {
+            // It might also be just a base filename
+            File::delete(Path::clean($filename));
+        }
+	}
+	
+	protected function uploadUserfile($tmp_src, $filename)
+	{
+		$dest_path = "/images";
+		$fileData['src_server'] = "local";
+		$fileData['fullpath'] = $dest_path . '/' . $filename;
+		$fileData['filename'] = $filename;
+
+		// Move uploaded file.
+		File::upload($tmp_src, $fileData['fullpath'], false, true);
+
+		return $fileData;
 	}
 }

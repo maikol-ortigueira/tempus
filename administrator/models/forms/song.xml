@@ -142,10 +142,12 @@
             cols="30"
           />
           <field
-            name="sheet_doc"
+            name="userfile"
             type="file"
+            accept=""
             label="COM_TEMPUS_SONG_FIELD_SHEET_FILE_LBL"
             description="COM_TEMPUS_SONG_FIELD_SHEET_FILE_DESC"
+            message="Un puñetero error subiendo la partitura"
           />
         </form>
       </field>
@@ -193,10 +195,12 @@
             cols="30"
           />
           <field
-            name="audio_doc"
+            name="userfile"
             type="file"
+            accept="audio/*"
             label="COM_TEMPUS_SONG_FIELD_AUDIO_FILE_LBL"
             description="COM_TEMPUS_SONG_FIELD_AUDIO_FILE_DESC"
+            message="Un puñetero error subiendo el audio"
           />
         </form>
       </field>
