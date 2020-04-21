@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
 
+use \Joomla\CMS\Filter\OutputFilter;
+use \Joomla\CMS\Component\ComponentHelper;
 use \Joomla\CMS\Filesystem\File;
 use \Joomla\CMS\Filesystem\Path;
 use \Joomla\CMS\Factory;
@@ -325,7 +327,8 @@ class TempusModelSong extends AdminModel
 					// Check the file extension
 					if ($this->checkUpload($userfile['name']))
 					{
-						$fileData = $this->uploadUserfile($tmp_src, $userfile['name']);
+						$folderName = trim(OutputFilter::stringURLSafe($data['title'] . '-' . $data['author']), '-');
+						$fileData = $this->uploadUserfile($tmp_src, $userfile['name'], $folderName, $subforms);
 						foreach ($fileData as $key => $value)
 						{
 							$data['documents'][$subforms][$line][$key] = $value;
@@ -394,9 +397,15 @@ class TempusModelSong extends AdminModel
         }
 	}
 
-	protected function uploadUserfile($tmp_src, $filename)
+	protected function uploadUserfile($tmp_src, $filename, $folderName, $subforms)
 	{
-		$dest_path = JPATH_ROOT . "/" . "pruebas";
+		// Get the root folder from params
+		$params = ComponentHelper::getParams('com_tempus');
+		$dest_path = trim($params->get('files-folder'), '/');
+
+		// Set the folderName and type subfolder
+		$subforms = Text::_('COM_TEMPUS_SONG_FIELD_' . strtoupper($subforms) . '_LBL');
+		$dest_path = JPATH_ROOT . "/" . $dest_path . "/" . $folderName . "/" . $subforms;
 		$fileData['src_server'] = "local";
 		$fileData['fullpath'] = $dest_path . '/' . $filename;
 		$fileData['filename'] = $filename;

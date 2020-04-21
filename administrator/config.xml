@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <fieldset label="COM_TEMPUS" name="tempus">
-        
+
+    </fieldset>
+
+    <fieldset name="file-system"
+      label="Carga de ficheros"
+      description="Gestión de los ficheros que se subirán al sitio"
+      >
+      <field
+        name="files-folder"
+        type="text"
+        default="coro/ficheros"
+        label="Carpeta para ficheros"
+        description="Ruta de la carpeta en la que se alamacenarán los ficheros de partituras y audios"
+        />
     </fieldset>
 
     <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">

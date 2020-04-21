@@ -10,6 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use \Joomla\CMS\Filter\OutputFilter;
 use \Joomla\Utilities\ArrayHelper;
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Access\Access;
@@ -161,8 +162,7 @@ class TempusTablesong extends \Joomla\CMS\Table\Table
 		{
 			$this->alias = $this->title . '-' . $this->author;
 		}
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		return true;
+		$this->alias = OutputFilter::stringURLSafe($this->alias);
 
 		// Support for fields field documents
 		if (is_array($this->documents))

@@ -117,7 +117,7 @@
       <field
         name="audio"
         type="subform"
-        label="COM_TEMPUS_SONG_FIELD_AUDIOS_LBL"
+        label="COM_TEMPUS_SONG_FIELD_AUDIO_LBL"
         description="COM_TEMPUS_SONG_FIELD_AUDIOS_DESC"
         formsource="/administrator/components/com_tempus/models/forms/subform_song_files.xml"
         groupByFieldset="true"
