@@ -401,7 +401,7 @@ class TempusModelSong extends AdminModel
 	{
 		// Get the root folder from params
 		$params = ComponentHelper::getParams('com_tempus');
-		$dest_path = trim($params->get('files-folder'), '/');
+		$dest_path = trim($params->get('files_folder'), '/');
 
 		// Set the folderName and type subfolder
 		$subforms = Text::_('COM_TEMPUS_SONG_FIELD_' . strtoupper($subforms) . '_LBL');
