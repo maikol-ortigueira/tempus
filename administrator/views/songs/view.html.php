@@ -83,7 +83,8 @@ class TempusViewSongs extends \Joomla\CMS\MVC\View\HtmlView
 
 				if (isset($this->items[0]))
 				{
-					JToolbarHelper::custom('songs.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+					// Para incluir el botón de duplicar debo corregir el método save de model para que cambie nombre y alias
+					// JToolbarHelper::custom('songs.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 				}
 			}
 
@@ -144,9 +145,9 @@ class TempusViewSongs extends \Joomla\CMS\MVC\View\HtmlView
 	}
 
 	/**
-	 * Method to order fields 
+	 * Method to order fields
 	 *
-	 * @return void 
+	 * @return void
 	 */
 	protected function getSortFields()
 	{

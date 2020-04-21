@@ -95,7 +95,8 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolBarHelper::custom('song.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			// Para incluir el botón de guardar como copia debo corregir el método save de model para que cambie nombre y alias
+			//JToolBarHelper::custom('song.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		// Button for version control

@@ -23,7 +23,6 @@ use \Joomla\CMS\Table\Table;
  */
 class TempusTablesong extends \Joomla\CMS\Table\Table
 {
-	
 	/**
 	 * Constructor
 	 *
@@ -52,7 +51,7 @@ class TempusTablesong extends \Joomla\CMS\Table\Table
 	{
 	    $date = Factory::getDate();
 		$task = Factory::getApplication()->input->get('task');
-	    
+
 		$input = JFactory::getApplication()->input;
 		$task = $input->getString('task', '');
 
@@ -155,6 +154,15 @@ class TempusTablesong extends \Joomla\CMS\Table\Table
 		{
 			$this->ordering = self::getNextOrder();
 		}
+
+		// Support for alias field
+		$this->alias = trim($this->alias);
+		if (empty($this->alias))
+		{
+			$this->alias = $this->title . '-' . $this->author;
+		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		return true;
 
 		// Support for fields field documents
 		if (is_array($this->documents))
@@ -301,7 +309,7 @@ class TempusTablesong extends \Joomla\CMS\Table\Table
 	{
 		$this->load($pk);
 		$result = parent::delete($pk);
-		
+
 		return $result;
 	}
 }

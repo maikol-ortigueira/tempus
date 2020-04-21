@@ -57,23 +57,18 @@ $document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
 	<input type="hidden" name="jform[checked_out_time]" value="<?php echo $this->item->checked_out_time; ?>" />
 	<?php echo $this->form->renderField('created_by'); ?>
 	<?php echo $this->form->renderField('modified_by'); ?>
-	<?php echo $this->form->renderField('title'); ?>
-	<!-- Control de versiones -->
-	<?php if ($this->state->params->get('save_history', 1)) : ?>
-		<div class="control-group">
-			<div class="control-label"><?php echo $this->form->getLabel('version_note'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('version_note'); ?></div>
-		</div>
-	<?php endif; ?>
-	<!-- fin del campo de control de versiones -->
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 	<!-- Inicio de pestañas -->
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 	<!-- Primera pestaña -->
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_TEMPUS_SONG_TAB_DETAILS', true)); ?>
 		<div class="row-fluid">
-			<div class="adminform form-horizontal">
+			<div class="span9">
 				<?php echo $this->form->renderField('author'); ?>
-				<?php echo $this->form->renderField('note'); ?>
+				<?php echo $this->form->renderField('song_note'); ?>
+			</div>
+			<div class="span3">
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>

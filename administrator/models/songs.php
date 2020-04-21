@@ -18,9 +18,7 @@ jimport('joomla.application.component.modellist');
  */
 class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 {
-    
-        
-/**
+	/**
 	* Constructor.
 	*
 	* @param   array  $config  An optional associative array of configuration settings.
@@ -47,10 +45,10 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		parent::__construct($config);
 	}
 
-    
-        
-    
-        
+
+
+
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -99,9 +97,9 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
-        
+
         return parent::getStoreId($id);
-                
+
 	}
 
 	/**
@@ -124,7 +122,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 			)
 		);
 		$query->from('`#__tempus_songs` AS a');
-                
+
 		// Join over the users for the checked out user
 		$query->select("uc.name AS uEditor");
 		$query->join("LEFT", "#__users AS uc ON uc.id=a.checked_out");
@@ -136,7 +134,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		// Join over the user field 'modified_by'
 		$query->select('`modified_by`.name AS `modified_by`');
 		$query->join('LEFT', '#__users AS `modified_by` ON `modified_by`.id = a.`modified_by`');
-                
+
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
@@ -162,10 +160,10 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 			else
 			{
 				$search = $db->Quote('%' . $db->escape($search, true) . '%');
-				
+
 			}
 		}
-                
+
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', "a.id");
 		$orderDirn = $this->state->get('list.direction', "ASC");
@@ -186,7 +184,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
-                
+
 
 		return $items;
 	}

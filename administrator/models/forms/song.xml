@@ -69,7 +69,7 @@
 		/>
 
 		<field
-			name="note"
+			name="song_note"
 			type="textarea"
 			label="COM_TEMPUS_SONG_FIELD_NOTE_LBL"
 			description="COM_TEMPUS_SONG_FIELD_NOTE_DESC"
