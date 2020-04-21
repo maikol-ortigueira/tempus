@@ -24,6 +24,18 @@
         <option value="-2">JTRASHED</option>
     </field>
     <field
+      name="catid"
+      type="category"
+      extension="com_tempus"
+      class="inputbox"
+      default=""
+      label="Categoría"
+      description=""
+      required="true"
+    >
+      <option value="0">JOPTION_SELECT_CATEGORY</option>
+    </field>
+    <field
       name="created_by"
       type="createdby"
       default="0"

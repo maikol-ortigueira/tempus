@@ -123,6 +123,10 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		);
 		$query->from('`#__tempus_songs` AS a');
 
+		// Join over the categories
+		$query->select($db->quoteName('c.title', 'category_title'))
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
+
 		// Join over the users for the checked out user
 		$query->select("uc.name AS uEditor");
 		$query->join("LEFT", "#__users AS uc ON uc.id=a.checked_out");

@@ -79,6 +79,9 @@ $sortFields = $this->getSortFields();
 							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_TITLE_LIST_VIEW_SONGS_LBL', 'a.`title`', $listDirn, $listOrder); ?>
 						</th>
 						<th class='left'>
+							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_CATEGORY_LIST_VIEW_SONGS_LBL', 'a.`catid`', $listDirn, $listOrder); ?>
+						</th>
+						<th class='left'>
 							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_TITLE_LIST_VIEW_AUTHOR_LBL', 'a.`author`', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -139,6 +142,9 @@ $sortFields = $this->getSortFields();
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
+							</td>
+							<td>
+								<?php echo $this->escape($item->category_title); ?>
 							</td>
 							<td>
 								<?php echo $this->escape($item->author); ?>

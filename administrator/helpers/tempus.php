@@ -11,6 +11,8 @@
 defined('_JEXEC') or die;
 
 use \Joomla\CMS\Factory;
+use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\Object\CMSObject;
 
 /**
  * Tempus helper.
@@ -29,9 +31,15 @@ class TempusHelper
 	public static function addSubmenu($vName = '')
 	{
 		JHtmlSidebar::addEntry(
-			JText::_('COM_TEMPUS_TITLE_SONGS'),
+			Text::_('COM_TEMPUS_TITLE_SONGS'),
 			'index.php?option=com_tempus&view=songs',
 			$vName == 'songs'
+		);
+
+		JHtmlSidebar::addEntry(
+			Text::_('COM_TEMPUS_SUBMENU_CATEGORIES'),
+			'index.php?option=com_categories&view=categories&extension=com_tempus',
+			$vName == 'categories'
 		);
 
 	}
@@ -72,7 +80,7 @@ class TempusHelper
 	public static function getActions()
 	{
 		$user   = Factory::getUser();
-		$result = new JObject;
+		$result = new CMSObject;
 
 		$assetName = 'com_tempus';
 
