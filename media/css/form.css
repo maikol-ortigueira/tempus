@@ -18,7 +18,7 @@
 .front-end-edit .readonly {
     border: none !important;
     color: #666;
-}    
+}
 .front-end-edit #editor-xtd-buttons {
     height: 50px;
     width: 600px;
@@ -41,4 +41,10 @@ fieldset.radio label{
 
 form div.button-div{
     margin-left: 110px;
+}
+
+.verde {
+    color: rgb(6, 91, 170);
+    font-weight: 700;
+    font-size: 14px;
 }

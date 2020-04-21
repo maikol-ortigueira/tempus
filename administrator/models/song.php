@@ -243,9 +243,11 @@ class TempusModelSong extends AdminModel
 		$input = Factory::getApplication()->input;
 
 		// Bring the files
-		$files = $this->myUploads($input, $data);
+		if ($this->myUploads($input, $data))
+		{
+			return parent::save($data);
+		}
 
-		parent::save($data);
 	}
 
 	/**
@@ -275,7 +277,7 @@ class TempusModelSong extends AdminModel
 			// Recorrer cada línea del subform
 			foreach ($subform as $line => $value)
 			{
-				$userfile = $value['file'];
+				$userfile = $value['userfile'];
 
 				// If there is no uploaded file, we have a problem...
 				if (!is_array($userfile))
@@ -310,7 +312,7 @@ class TempusModelSong extends AdminModel
 				// Check if there was a different problem uploading the file.
 				if ($userfile['error'] || $userfile['size'] < 1)
 				{
-					if ($userfile['error'] == 4)
+					if ($userfile['error'] != 4)
 					{
 						JError::raiseWarning('', Text::_('COM_TEMPUS_FILE_WARNING_FILE_UPLOAD_ERROR_MSG'));
 					}

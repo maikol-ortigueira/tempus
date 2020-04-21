@@ -91,7 +91,7 @@ class TempusHelper
 	public static function getVoices()
 	{
 		$voices = array(
-			'0' => '- Selecciona Voz -',
+			'0' => 'SATB',
 			'1' => 'Sopranos',
 			'2' => 'Altos',
 			'3' => 'Tenores',

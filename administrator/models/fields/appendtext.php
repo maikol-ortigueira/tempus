@@ -38,13 +38,15 @@ class JFormFieldAppendText extends FormField
 	 */
 	public function getInput()
 	{
-		$class = $this->element['class'];
+		$divClass = $this->element['div-class'] != "" ? ' class="' . $this->element['div-class'] . '"' : "";
+		$pClass = $this->element['p-class'] != "" ? ' class="' . $this->element['p-class'] . '"' : "";
 
 		$html = array();
 
 		// Initialize variables.
-		$html[] = '<div class="'. $class. '">';
-		$html[] = '<p id="' . $this->id . '" name="' . $this->name . '">' . $this->value . '</p>';
+		$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '" />';
+		$html[] = '<div' . $divClass . '>';
+		$html[] = '<p' . $pClass . '>' . $this->value . '</p>';
 		$html[] = '</div>';
 
 		return implode($html);

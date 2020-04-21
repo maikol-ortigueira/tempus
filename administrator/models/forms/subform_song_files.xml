@@ -35,7 +35,7 @@
 	</fieldset>
 	<fieldset name="userfile">
 		<field
-			name="file"
+			name="userfile"
 			type="file"
 			accept=""
 			label="COM_TEMPUS_SONG_FIELD_SHEET_FILE_LBL"
@@ -53,6 +53,7 @@
 		<field
 			name="filename"
 			type="appendtext"
+			p-class="verde"
 		/>
 	</fieldset>
 </form>
