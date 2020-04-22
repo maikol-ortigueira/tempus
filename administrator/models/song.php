@@ -422,7 +422,7 @@ class TempusModelSong extends AdminModel
 	protected function uploadToLocal($tmp_src, $dest_path)
 	{
 		$dest_path = JPATH_ROOT . "/" . $dest_path;
-		
+
 		File::upload($tmp_src, $dest_path, false);
 	}
 
@@ -434,7 +434,7 @@ class TempusModelSong extends AdminModel
 
 		$params = ComponentHelper::getParams('com_tempus');
 
-		$token = $params->get('token_dropbox');
+		$token = $params->get('oauth2Token_dropbox');
 
 		if (empty($token))
 		{
@@ -457,7 +457,7 @@ class TempusModelSong extends AdminModel
 
 		//$options['mute'] = true o false
 
-		$options['path'] = $dest_path;
+		$options['path'] = '/' . trim($dest_path, '/');
 
 		DropboxHelper::filesUpload($token, $tmp_src, $options);
 

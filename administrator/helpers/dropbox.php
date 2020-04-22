@@ -22,16 +22,16 @@ use \Joomla\CMS\Object\CMSObject;
 class DropboxHelper
 {
     protected static $rpcEndpoint = 'https://api.dropboxapi.com/2';
-    protected static $authEndpoint = 'https://api.dropboxapi.com';   
+    protected static $authEndpoint = 'https://api.dropboxapi.com';
     protected static $contentEndpoint = 'https://content.dropboxapi.com';
     protected static $lastErrorCode = 0;
 	protected static $lastCurlError = 0;
-	
+
 	protected static function postCurl($url, $data = "", $access_token = "")
 	{
 		if(empty($data))
 		{
-		   return false;   
+		   return false;
 		}
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -45,12 +45,12 @@ class DropboxHelper
 			  $headers[] = 'Content-Type: application/json';
 		  }
 		}
-		
+
 		if(!empty($access_token))
 		{
 			$headers[] = 'Authorization: Bearer '. $access_token;
 		}
-		
+
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
@@ -82,12 +82,12 @@ class DropboxHelper
 		{
 			$return = false;
 		}
- 
- 
-		
+
+
+
 		curl_close($ch);
 		return $return;
-		
+
 	}
 
     public static function filesUpload($token, $src, $options = array())
@@ -95,15 +95,15 @@ class DropboxHelper
 		$url = self::$contentEndpoint . '/2/files/upload';
 		$ch = curl_init($url);
 		$aPostData = $options;
-		
+
 		$fp = fopen($src, 'rb');
         $filesize = filesize($src);
 		$data = fread($fp, $filesize);
-		
-		
+
+
 		$aOptions = array(
 			CURLOPT_POST => true,
-			CURLOPT_HTTPHEADER => array('Content-Type: application/octet-stream', 
+			CURLOPT_HTTPHEADER => array('Content-Type: application/octet-stream',
 			  'Authorization: Bearer ' . $token,
 			  'Dropbox-API-Arg: ' . json_encode($aPostData)
 			) ,
@@ -112,7 +112,7 @@ class DropboxHelper
 		);
 
 		curl_setopt_array($ch, $aOptions);
-		$result = curl_exec($ch);		
+		$result = curl_exec($ch);
 
 	   self::$lastCurlError = curl_errno($ch);
 	   if(!self::$lastCurlError)
@@ -144,26 +144,27 @@ class DropboxHelper
 	   }
 
 
-	   
+
 	   curl_close($ch);
-	   return $return;	 
-	 
+	   return $return;
+
 	}
 
-	public static function oauth2Token($params, $auth_code)
+	public static function oauth2Token($data)
 	{
-		$data = array();
-		$data["code"] = $auth_code;
-		$data["grant_type"] = 'authorization_code';
-		$data["client_id"] = $params->get("access_key");
-		$data["client_secret"] = $params->get("secret_key");
-		
 		$encoded_data = http_build_query($data);
 		$url = self::$authEndpoint.'/oauth2/token';
-		
+
 		$response = self::postCurl($url, $encoded_data);
 		return $response;
-		
+
+	}
+
+	public static function authTokenRevoke($token)
+	{
+		$url = self::$rpcEndpoint.'/auth/token/revoke';
+		self::postCurl($url,"", $token);
+		//there shouldn't be a response from this
 	}
 }
 

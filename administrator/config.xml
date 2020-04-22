@@ -66,14 +66,25 @@
           type="text"
           label="COM_TEMPUS_CONFIG_DROPBOX_TOKEN_LBL"
           description="COM_TEMPUS_CONFIG_DROPBOX_TOKEN_DESC"
-          showon="file_server:dropbox[AND]prk_dropbox!:"
+          showon="file_server:dropbox[AND]prk_dropbox!:[AND]oauth2Token_dropbox:"
           />
         <field
           name="connect_dropbox"
           type="custombutton"
           button_text="Conectar a dropbox"
           button_class="info"
-          button_href="#"
+          button_href="index.php?option=com_tempus"
+          button_task="dropbox.connect"
+          showon="file_server:dropbox[AND]prk_dropbox!:[AND]token_dropbox!:[AND]oauth2Token_dropbox:"
+        />
+        <field
+          name="disconnect_dropbox"
+          type="custombutton"
+          button_text="Desconectar de dropbox"
+          button_class="success"
+          button_href="index.php?option=com_tempus"
+          button_task="dropbox.disconnect"
+          showon="file_server:dropbox[AND]oauth2Token_dropbox!:"
         />
         <field
           name="oauth2Token_dropbox"

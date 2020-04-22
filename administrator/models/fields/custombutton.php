@@ -25,6 +25,7 @@ use \Joomla\CMS\Language\Text;
  * button_class 	Button type class. The options are primary, info, success, warning, danger, inverse, link. See https://getbootstrap.com/2.3.2/base-css.html#buttons.
  * button_size 		Size of the button. The options are large, small, mini.
  * button_href 		URL where the button sends us. Default #.
+ * button_task		If button_href redirects to a component you can set a dot separated task. Ex.: content.upload
  * translate 		If you want to translate the tooltip and button_text strings this attribute must have the value "true".
  * onclick 			Javascript action that is executed when the button is pressed.
  * message 			Message to use on appended div. Used to show on conditional field only
@@ -51,6 +52,7 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 	protected $button_class;
 	protected $button_size;
 	protected $button_href;
+	protected $button_task;
 	protected $onclick;
 	protected $translate;
 	protected $class;
@@ -87,6 +89,9 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 
 		// Button link URL
 		$this->button_href = $this->getAttribute('button_href');
+
+		// Button link URL
+		$this->button_task = $this->getAttribute('button_task');
 
 		// Function onclick
 		$this->onclick = $this->getAttribute('onclick');
@@ -130,15 +135,16 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 			$class .= ' btn-' . $this->button_size;
 		}
 
+		$html = array();
 
 		// HTML beginning
-		$html = '<a';
+		$html[] = '<a';
 
 		// Display style. By default display true
-		$html .= (empty($this->display_button)) ? '' : ' style="display:' . $this->display_button . '"' ;
+		$html[] = (empty($this->display_button)) ? '' : ' style="display:' . $this->display_button . '"' ;
 
 		// Button Id
-		$html .= ' id="' . $this->id . '"';
+		$html[] = ' id="' . $this->id . '"';
 
 
 		// Do we have a tooltip?
@@ -152,12 +158,12 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 				$this->button_tooltip = Text::_($this->button_tooltip);
 			}
 
-			$html .= ' data-toggle="tooltip"';
-			$html .= ' title="' . $this->button_tooltip . '"';
+			$html[] = ' data-toggle="tooltip"';
+			$html[] = ' title="' . $this->button_tooltip . '"';
 		}
 
 		// Class data
-		$html .= ' class="' . $class . '"';
+		$html[] = ' class="' . $class . '"';
 
 		// URL data
 		$href = '#';
@@ -166,24 +172,28 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 		if ($this->button_href != "")
 		{
 			$href = $this->button_href;
+			if ($this->button_task != "")
+			{
+				$href = $href . '&task=' . $this->button_task;
+			}
 		}
 
-		$html .= ' href="' . $href . '"';
+		$html[] = ' href="' . $href . '"';
 
 		// Do we have onclick funtion?
 		if ($this->onclick != "")
 		{
-			$html .= ' onclick="return ' . $this->onclick . '"';
+			$html[] = ' onclick="return ' . $this->onclick . '"';
 		}
 
 		// Close <a> tag
-		$html .= '>';
+		$html[] = '>';
 
 
 		// Button icon
 		if ($this->button_icon != "")
 		{
-			$html .= '<i class="icon-' . $this->button_icon . '"></i>';
+			$html[] = '<i class="icon-' . $this->button_icon . '"></i>';
 		}
 
 		// Button text
@@ -193,7 +203,7 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 			{
 				$this->button_text = Text::_($this->button_text);
 			}
-			$html .= ' ' . $this->button_text;
+			$html[] = ' ' . $this->button_text;
 		}
 
 		$msgClass="";
@@ -206,13 +216,13 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 		$display_text = (empty($this->display_text)) ? 'none' : $this->display_text ;
 
 		// </a> closing tag
-		$html .= '</a>';
+		$html[] = '</a>';
 		// Place to append a text
-		$html .= '<div id="' . $this->id . '_text" class="'. $msgClass .'" style="display:' . $display_text . '">';
-		$html .= Text::sprintf($this->message, $this->message_append);
-		$html .= '</div>';
+		$html[] = '<div id="' . $this->id . '_text" class="'. $msgClass .'" style="display:' . $display_text . '">';
+		$html[] = Text::sprintf($this->message, $this->message_append);
+		$html[] = '</div>';
 
-		return $html;
+		return implode($html);
 	}
 
 	protected function getLabel()
