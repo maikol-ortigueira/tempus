@@ -25,8 +25,6 @@ use \Joomla\CMS\Language\Text;
  * button_class 	Button type class. The options are primary, info, success, warning, danger, inverse, link. See https://getbootstrap.com/2.3.2/base-css.html#buttons.
  * button_size 		Size of the button. The options are large, small, mini.
  * button_href 		URL where the button sends us. Default #.
- * href_cond		Is the href conditioned by other field?. Where from? Options: config, TODO more options
- * cond_field		Field where the conditional value comes from
  * translate 		If you want to translate the tooltip and button_text strings this attribute must have the value "true".
  * onclick 			Javascript action that is executed when the button is pressed.
  * message 			Message to use on appended div. Used to show on conditional field only
@@ -53,8 +51,6 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 	protected $button_class;
 	protected $button_size;
 	protected $button_href;
-	protected $href_cond;
-	protected $cond_field;
 	protected $onclick;
 	protected $translate;
 	protected $class;
@@ -91,12 +87,6 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 
 		// Button link URL
 		$this->button_href = $this->getAttribute('button_href');
-
-		// Condition source
-		$this->href_cond = $this->getAttribute('href_cond');
-
-		// Condition field source
-		$this->cond_field = $this->getAttribute('cond_field');
 
 		// Function onclick
 		$this->onclick = $this->getAttribute('onclick');
@@ -140,13 +130,6 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 			$class .= ' btn-' . $this->button_size;
 		}
 
-		$href_link = "";
-		// Prepare the conditional href
-		if ($this->href_cond == "config")
-		{
-			$params = ComponentHelper::getParams('com_tempus');
-			$href_link = $params->get($this->cond_field);
-		}
 
 		// HTML beginning
 		$html = '<a';
@@ -182,7 +165,7 @@ class JFormFieldCustombutton extends \Joomla\CMS\Form\FormField
 		// Do we have a href link?
 		if ($this->button_href != "")
 		{
-			$href = $this->button_href . $href_link;
+			$href = $this->button_href;
 		}
 
 		$html .= ' href="' . $href . '"';

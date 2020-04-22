@@ -24,9 +24,9 @@
         label="COM_TEMPUS_CONFIG_FILE_SERVER_LBL"
         description="COM_TEMPUS_CONFIG_FILE_SERVER_DESC"
       >
-        <option value="1">Local</option>
-        <option value="2">Dropbox</option>
-        <option value="3">Amazon s3</option>
+        <option value="local">Local</option>
+        <option value="dropbox">Dropbox</option>
+        <option value="as3">Amazon s3</option>
       </field>
 
         <field
@@ -35,39 +35,50 @@
           class="alert alert-success"
           label="COM_TEMPUS_CONFIG_DROPBOX_APP_NOTE_LBL"
           description="COM_TEMPUS_CONFIG_DROPBOX_APP_NOTE_DESC"
-          showon="file_server:2[AND]token_dropbox:"
+          showon="file_server:dropbox[AND]token_dropbox:"
         />
         <field
           name="pbk_dropbox"
-          type="password"
+          type="text"
           label="COM_TEMPUS_CONFIG_DROPBOX_PUBLIC_KEY_LBL"
           description="COM_TEMPUS_CONFIG_DROPBOX_PUBLIC_KEY_DESC"
-          showon="file_server:2[AND]token_dropbox:"
+          showon="file_server:dropbox[AND]token_dropbox:"
           />
         <field
           name="prk_dropbox"
           type="password"
           label="COM_TEMPUS_CONFIG_DROPBOX_PRIVATE_KEY_LBL"
           description="COM_TEMPUS_CONFIG_DROPBOX_PRIVATE_KEY_DESC"
-          showon="file_server:2[AND]token_dropbox:"
+          showon="file_server:dropbox[AND]token_dropbox:"
           />
         <field
           name="note_dropbox_token"
           type="ortnote"
           class="alert"
           heading="h3"
-          sprintf="prk_dropbox"
+          sprintf="pbk_dropbox"
           label="COM_TEMPUS_CONFIG_DROPBOX_APP_TOKEN_NOTE_LBL"
           description="COM_TEMPUS_CONFIG_DROPBOX_APP_TOKEN_NOTE_DESC"
-          showon="file_server:2[AND]prk_dropbox!:[AND]token_dropbox:"
+          showon="file_server:dropbox[AND]prk_dropbox!:[AND]token_dropbox:"
         />
         <field
           name="token_dropbox"
-          type="password"
+          type="text"
           label="COM_TEMPUS_CONFIG_DROPBOX_TOKEN_LBL"
           description="COM_TEMPUS_CONFIG_DROPBOX_TOKEN_DESC"
-          showon="file_server:2[AND]prk_dropbox!:"
+          showon="file_server:dropbox[AND]prk_dropbox!:"
           />
+        <field
+          name="connect_dropbox"
+          type="custombutton"
+          button_text="Conectar a dropbox"
+          button_class="info"
+          button_href="#"
+        />
+        <field
+          name="oauth2Token_dropbox"
+          type="hidden"
+        />
 
     </fieldset>
 

@@ -16,7 +16,7 @@
       type="list"
       label="JSTATUS"
       description="JFIELD_PUBLISHED_DESC"
-      class="inputbox"
+      class="chzn-color-state"
       size="1">
         <option value="1">JPUBLISHED</option>
         <option value="0">JUNPUBLISHED</option>
