@@ -20,8 +20,11 @@ use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\MVC\Model\AdminModel;
 use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\CMS\Router\Route;
 use \Joomla\CMS\Table\Table;
 use \Joomla\Registry\Registry;
+
+JLoader::register('DropboxHelper', JPATH_COMPONENT_ADMINISTRATOR.'/helpers/dropbox.php');
 
 /**
  * Tempus model.
@@ -401,18 +404,68 @@ class TempusModelSong extends AdminModel
 	{
 		// Get the root folder from params
 		$params = ComponentHelper::getParams('com_tempus');
-		$dest_path = trim($params->get('files-folder'), '/');
+		$dest_path = trim($params->get('files_folder'), '/');
 
 		// Set the folderName and type subfolder
 		$subforms = Text::_('COM_TEMPUS_SONG_FIELD_' . strtoupper($subforms) . '_LBL');
-		$dest_path = JPATH_ROOT . "/" . $dest_path . "/" . $folderName . "/" . $subforms;
-		$fileData['src_server'] = "local";
+		$dest_path = $dest_path . "/" . $folderName . "/" . $subforms;
+		$fileData['src_server'] = $params->get('file_server');
 		$fileData['fullpath'] = $dest_path . '/' . $filename;
 		$fileData['filename'] = $filename;
 
 		// Move uploaded file.
-		File::upload($tmp_src, $fileData['fullpath'], false);
+		$this->{uploadTo . ucfirst($fileData['src_server'])}($tmp_src, $fileData['fullpath']);
 
 		return $fileData;
+	}
+
+	protected function uploadToLocal($tmp_src, $dest_path)
+	{
+		$dest_path = JPATH_ROOT . "/" . $dest_path;
+
+		File::upload($tmp_src, $dest_path, false);
+	}
+
+	protected function uploadToDropbox($tmp_src, $dest_path)
+	{
+		// TODO Deberíamos comprobar si el usuario tiene permiso para subir $canDo = $TempusHelper::getActions()
+
+		$app = Factory::getApplication();
+
+		$params = ComponentHelper::getParams('com_tempus');
+
+		$token = $params->get('oauth2Token_dropbox');
+
+		if (empty($token))
+		{
+			$errorMessage = Text::_('No dispones de token para Dropbox. Debes configurarlo en las opciones del componente.');
+			$app->enqueueMessage($errorMessage, 'error');
+			$app->redirect(Route::_('index.php?option=com_config&view=component&component=com_tempus#file_system'));
+			return;
+		}
+
+		// Opciones de subida
+		$options = array();
+		$options['mode'] = 'add';
+		$options['autorename'] = true;
+
+		// if ($condicion == 'sobreescribir')
+		//{
+		//	$options['mode'] = 'overwrite';
+		//	$options['autorename'] = false;
+		//}
+
+		//$options['mute'] = true o false
+
+		$options['path'] = '/' . trim($dest_path, '/');
+
+		DropboxHelper::filesUpload($token, $tmp_src, $options);
+
+		return;
+	}
+
+	protected function uploadToAs3($tmp_src, $dest_path)
+	{
+		// all my code
 	}
 }

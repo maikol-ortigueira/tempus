@@ -4,22 +4,94 @@
 
     </fieldset>
 
-    <fieldset name="file-system"
-      label="Carga de ficheros"
-      description="Gestión de los ficheros que se subirán al sitio"
+    <fieldset name="file_system"
+      label="COM_TEMPUS_CONFIG_FILE_SYSTEM_LBL"
+      description="COM_TEMPUS_CONFIG_FILE_SYSTEM_DESC"
+      addfieldpath="/administrator/components/com_tempus/models/fields"
       >
       <field
-        name="files-folder"
+        name="files_folder"
         type="text"
         default="coro/ficheros"
-        label="Carpeta para ficheros"
-        description="Ruta de la carpeta en la que se alamacenarán los ficheros de partituras y audios"
-        />
-    </fieldset>
+        label="COM_TEMPUS_CONFIG_FILES_FOLDER_LBL"
+        description="COM_TEMPUS_CONFIG_FILES_FOLDER_DESC"
+      />
+      <field
+        name="file_server"
+        type="list"
+        multiple="false"
+        default="1"
+        label="COM_TEMPUS_CONFIG_FILE_SERVER_LBL"
+        description="COM_TEMPUS_CONFIG_FILE_SERVER_DESC"
+      >
+        <option value="local">Local</option>
+        <option value="dropbox">Dropbox</option>
+        <option value="as3">Amazon s3</option>
+      </field>
 
-    <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
-        <field name="rules" type="rules" component="com_tempus" class="inputbox" filter="rules" validate="rules" label="JCONFIG_PERMISSIONS_LABEL" section="component" />
-	</fieldset>
+        <field
+          name="note_dropbox"
+          type="note"
+          class="alert alert-success"
+          label="COM_TEMPUS_CONFIG_DROPBOX_APP_NOTE_LBL"
+          description="COM_TEMPUS_CONFIG_DROPBOX_APP_NOTE_DESC"
+          showon="file_server:dropbox[AND]token_dropbox:"
+        />
+        <field
+          name="pbk_dropbox"
+          type="text"
+          label="COM_TEMPUS_CONFIG_DROPBOX_PUBLIC_KEY_LBL"
+          description="COM_TEMPUS_CONFIG_DROPBOX_PUBLIC_KEY_DESC"
+          showon="file_server:dropbox[AND]token_dropbox:"
+          />
+        <field
+          name="prk_dropbox"
+          type="password"
+          label="COM_TEMPUS_CONFIG_DROPBOX_PRIVATE_KEY_LBL"
+          description="COM_TEMPUS_CONFIG_DROPBOX_PRIVATE_KEY_DESC"
+          showon="file_server:dropbox[AND]token_dropbox:"
+          />
+        <field
+          name="note_dropbox_token"
+          type="ortnote"
+          class="alert"
+          heading="h3"
+          sprintf="pbk_dropbox"
+          label="COM_TEMPUS_CONFIG_DROPBOX_APP_TOKEN_NOTE_LBL"
+          description="COM_TEMPUS_CONFIG_DROPBOX_APP_TOKEN_NOTE_DESC"
+          showon="file_server:dropbox[AND]prk_dropbox!:[AND]token_dropbox:"
+        />
+        <field
+          name="token_dropbox"
+          type="text"
+          label="COM_TEMPUS_CONFIG_DROPBOX_TOKEN_LBL"
+          description="COM_TEMPUS_CONFIG_DROPBOX_TOKEN_DESC"
+          showon="file_server:dropbox[AND]prk_dropbox!:[AND]oauth2Token_dropbox:"
+          />
+        <field
+          name="connect_dropbox"
+          type="custombutton"
+          button_text="Conectar a dropbox"
+          button_class="info"
+          button_href="index.php?option=com_tempus"
+          button_task="dropbox.connect"
+          showon="file_server:dropbox[AND]prk_dropbox!:[AND]token_dropbox!:[AND]oauth2Token_dropbox:"
+        />
+        <field
+          name="disconnect_dropbox"
+          type="custombutton"
+          button_text="Desconectar de dropbox"
+          button_class="success"
+          button_href="index.php?option=com_tempus"
+          button_task="dropbox.disconnect"
+          showon="file_server:dropbox[AND]oauth2Token_dropbox!:"
+        />
+        <field
+          name="oauth2Token_dropbox"
+          type="hidden"
+        />
+
+    </fieldset>
 
     <fieldset name="component">
         <field name="save_history" type="radio" class="btn-group btn-group-yesno" default="0" label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL" description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC">
@@ -29,6 +101,10 @@
 
         <field name="history_limit" type="text" filter="integer" label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL" description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC" default="5"/>
     </fieldset>
+
+    <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+        <field name="rules" type="rules" component="com_tempus" class="inputbox" filter="rules" validate="rules" label="JCONFIG_PERMISSIONS_LABEL" section="component" />
+	  </fieldset>
 </config>
 <!--
 ########################################################################################
