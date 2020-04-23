@@ -36,6 +36,16 @@
       <option value="0">JOPTION_SELECT_CATEGORY</option>
     </field>
     <field
+      name="tags"
+      mode="ajax"
+      multiple="true"
+      custom="allow"
+      type="tag"
+      label="COM_TEMPUS_SONG_TAGS_LBL"
+      description="COM_TEMPUS_SONG_TAGS_DESC"
+      hint="COM_TEMPUS_SONG_TAGS_HINT"
+    />
+    <field
       name="created_by"
       type="createdby"
       default="0"

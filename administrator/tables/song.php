@@ -71,6 +71,75 @@ class TempusTablesong extends \Joomla\CMS\Table\Table
 			$array['modified_by'] = JFactory::getUser()->id;
 		}
 
+		// Gestión de etiquetas
+		if ( isset($array['tags']) && !empty($array['tags']) ) {
+
+			// Get the allowed actions for the user
+			$canDo = JHelperContent::getActions('com_tags');
+
+			// Load the tags model.
+			require_once JPATH_ADMINISTRATOR . '/components/com_tags/models/tag.php';
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
+
+			// Get an instance of the table for insertion the new tags
+			$tagsModel = TagsModelTag::getInstance('Tag','TagsModel');
+
+			$tags = array(); // Initialization of the tag container must be processed
+
+			// If tags is an array, store-mode
+			if ( is_array($array['tags']) ) {
+				// "Allow user creation" mode must be activated (default) in the component creation field
+				// Save the tags does not exist into the table tags and get its id for save the entire Item with the proper data
+				foreach ($array['tags'] as $singleTag) {
+					// If there is any new tag... create it to get the id and save into the table #__COMPONENT_NAME_TABLE_NAME
+					if ( strpos($singleTag, "#new#") !== FALSE ) {
+						$user           = JFactory::getUser();
+						$userId         = $user->id; // For writting permissions
+						$tagName        = str_replace("#new#", "", $singleTag);
+						$tagAlias       = $tagPath = preg_replace('/[\s\W\.]+/', '-', $tagName); // Tags alias filter
+						$tagMetadata    = array(
+								"author"=>""
+								, "robots"=>""
+								, "tags"=>null
+						);
+
+						// The data tag field row
+						$data = array(
+								"parent_id" => 0
+								, "path" => $tagPath
+								, "title" => $tagName
+								, "alias" => $tagAlias
+								, "created_by_alias" => $user
+								, "created_user_id" => $userId
+								, "published" => 1
+								, "checked_out"=> 0
+								, "metadata" => json_encode($tagMetadata)
+						);
+
+						// Finally, store the tag if the user is granted for that
+						if ( $canDo->get('core.create') ) {
+							$table = $tagsModel->getTable();
+							$table->bind($data) ? $table->store($data) : exit;
+							$tags[] = $table->id; // And store the insert_id
+						}
+					}
+
+				// NOT new Tag (already exists)
+				// $singleTag is the tag id
+				else
+					$tags[] = intval($singleTag);
+				}
+
+				// Overrride the tags array, because we should need to change the id before field saving
+				// The field in database will look like "299,345,567,567"
+				$array['tags'] = implode(',',$tags);
+			}
+		}
+		else {
+			$array['tags'] = '';
+		}
+
+
 		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry;

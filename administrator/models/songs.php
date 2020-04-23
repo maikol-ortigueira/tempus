@@ -39,6 +39,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 				'title', 'a.`title`',
 				'author', 'a.`author`',
 				'catid', 'a.`catid`',
+				'tags', 'a.`tags`',
 			);
 		}
 
@@ -139,6 +140,8 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		$query->select('`modified_by`.name AS `modified_by`');
 		$query->join('LEFT', '#__users AS `modified_by` ON `modified_by`.id = a.`modified_by`');
 
+		// Join over the tags: tags
+		$query->leftJoin($db->quoteName('#__tags', 'tags') . ' ON FIND_IN_SET(tags.id, a.tags)');
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
