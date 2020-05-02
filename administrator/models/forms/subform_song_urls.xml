@@ -25,6 +25,7 @@
 			<option value="3">3</option>
 			<option value="4">4</option>
 		</field>
+		<!--###instrument###-->
 	</fieldset>
 	<fieldset name="note"
 			label="COM_TEMPUS_SONG_FIELD_VIDEO_NOTE_LBL"
@@ -38,6 +39,7 @@
 			rows="3"
 			cols="30"
 		/>
+		<!--###note###-->
 	</fieldset>
 	<fieldset name="url">
 		<field
@@ -46,5 +48,6 @@
 			label="COM_TEMPUS_SONG_FIELD_VIDEO_URL_LBL"
 			description="COM_TEMPUS_SONG_FIELD_VIDEO_URL_DESC"
 		/>
+		<!--###url###-->
 	</fieldset>
 </form>

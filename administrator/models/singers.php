@@ -16,9 +16,10 @@ jimport('joomla.application.component.modellist');
  *
  * @since  1.6
  */
-class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
+class TempusModelSingers extends \Joomla\CMS\MVC\Model\ListModel
 {
-	/**
+
+/**
 	* Constructor.
 	*
 	* @param   array  $config  An optional associative array of configuration settings.
@@ -36,20 +37,12 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 				'state', 'a.`state`',
 				'created_by', 'a.`created_by`',
 				'modified_by', 'a.`modified_by`',
-				'title', 'a.`title`',
-				'author', 'a.`author`',
-				'catid', 'a.`catid`',
-				'tags', 'a.`tags`',
 				/*###construct-new-field###*/
 			);
 		}
 
 		parent::__construct($config);
 	}
-
-
-
-
 
 	/**
 	 * Method to auto-populate the model state.
@@ -100,8 +93,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 
-        return parent::getStoreId($id);
-
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -123,11 +115,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 				'list.select', 'DISTINCT a.*'
 			)
 		);
-		$query->from('`#__tempus_songs` AS a');
-
-		// Join over the categories
-		$query->select($db->quoteName('c.title', 'category_title'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
+		$query->from('`#__tempus_singers` AS a');
 
 		// Join over the users for the checked out user
 		$query->select("uc.name AS uEditor");
@@ -140,9 +128,6 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		// Join over the user field 'modified_by'
 		$query->select('`modified_by`.name AS `modified_by`');
 		$query->join('LEFT', '#__users AS `modified_by` ON `modified_by`.id = a.`modified_by`');
-
-		// Join over the tags: tags
-		$query->leftJoin($db->quoteName('#__tags', 'tags') . ' ON FIND_IN_SET(tags.id, a.tags)');
 
 		/*###getListQuery-query###*/
 
@@ -198,6 +183,4 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 
 		return $items;
 	}
-
-	/*###newMethod###*/
 }

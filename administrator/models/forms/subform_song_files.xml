@@ -16,12 +16,13 @@
 			label="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_LBL"
 			description="COM_TEMPUS_SONG_FIELD_SHEET_DIVISI_DESC"
 		>
-		<option value="">--</option>
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
+			<option value="">--</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
 		</field>
+		<!--###instrument###-->
 	</fieldset>
 	<fieldset name="note">
 		<field
@@ -32,6 +33,7 @@
 			rows="3"
 			cols="30"
 		/>
+		<!--###note###-->
 	</fieldset>
 	<fieldset name="userfile">
 		<field
@@ -55,5 +57,6 @@
 			type="appendtext"
 			p-class="verde"
 		/>
+		<!--###userfile###-->
 	</fieldset>
 </form>

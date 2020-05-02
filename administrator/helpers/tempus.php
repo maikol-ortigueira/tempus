@@ -42,6 +42,14 @@ class TempusHelper
 			$vName == 'categories'
 		);
 
+		JHtmlSidebar::addEntry(
+			Text::_('COM_TEMPUS_SUBMENU_SINGERS'),
+			'index.php?option=com_tempus&view=singers',
+			$vName == 'singers'
+		);
+
+		/*###addSubmenu-new-view###*/
+
 	}
 
 	/**
@@ -68,6 +76,32 @@ class TempusHelper
 		$db->setQuery($query);
 
 		return explode(',', $db->loadResult());
+	}
+
+	/**
+	 * Gets a list of values from de database
+	 *
+	 * @param   array    $fields  		Fields to return values
+	 * @param   string   $table   		Table name
+	 * @param   string   $whereField   	The field that makes the condition
+	 * @param   string   $whereValue  	Value from
+	 * @param   string   $condition  	Condition
+	 *
+	 * @return  array	Values
+	 */
+	public static function getValues($fields = array(), $table, $whereField, $whereValue, $condition = '=')
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select($db->quoteName($fields))
+			->from($table)
+			->where($db->quoteName($whereField) . ' ' . $condition . ' ' . $db->quote($whereValue));
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**

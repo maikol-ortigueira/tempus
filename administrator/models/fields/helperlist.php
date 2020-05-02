@@ -34,6 +34,8 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 	protected $type = 'helperlist';
 	protected $helper_getter;
 	protected $translate;
+	protected $exclude;
+	protected $empty_option;
 
 	/**
 	 * Method to get the field input markup.
@@ -50,6 +52,12 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 
 		// get the translatable condition
 		$this->translate = $this->getAttribute('translate');
+
+		// get the exclude key values
+		$this->exclude = $this->getAttribute('exclude');
+
+		// get the empty_option value
+		$this->empty_option = $this->getAttribute('empty_option');
 
 		$html = array();
 		$attr = '';
@@ -118,22 +126,41 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 	{
 		// Initialize variables.
 		$options = array();
+
+		if (isset($this->empty_option))
+		{
+			$option['value'] = '';
+			$option['text'] = Text::_($this->empty_option);
+			$options[''] = (object) $option;
+		}
+
 		$array = ucfirst($this->helper_getter);
+		if (isset($this->exclude))
+		{
+			$exclude = explode(',',$this->exclude);
+		}
 
 		$getter = 'get' . $array;
 		$optiones = TempusHelper::$getter();
 
 		$optiones = $this->helper_getter === 'emailtemplates' ? array_keys($optiones) : $optiones;
 
-		foreach ($optiones as $value => $text) {
-			if ($this->translate)
+		foreach ($optiones as $value => $text)
+		{
+			if (isset($exclude))
 			{
-				$text = 'COM_TEMPUS_' . strtoupper($this->helper_getter) . '_' . strtoupper($text);
+				if (!in_array($value, $exclude))
+				{
+					if ($this->translate)
+					{
+						$text = 'COM_TEMPUS_' . strtoupper($this->helper_getter) . '_' . strtoupper($text);
+					}
+					$option['value'] = $value;
+					$option['text'] = Text::_($text);
+					$options[$value] = (object) $option;
+				}
 			}
-			$option['value'] = $value;
-			$option['text'] = Text::_($text);
 
-			$options[$value] = (object) $option;
 		}
 
 		if ($this->helper_getter === 'emailtemplates')

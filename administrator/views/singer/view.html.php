@@ -21,7 +21,7 @@ use \Joomla\CMS\Uri\Uri;
  *
  * @since  1.6
  */
-class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
+class TempusViewSinger extends \Joomla\CMS\MVC\View\HtmlView
 {
 	protected $state;
 
@@ -51,6 +51,7 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 		}
 
 		$this->addToolbar();
+		$this->setDocument();
 		parent::display($tpl);
 	}
 
@@ -79,39 +80,38 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 
 		$canDo = TempusHelper::getActions();
 
-		JToolBarHelper::title(Text::_('COM_TEMPUS_TITLE_SONG'), 'song.png');
+		JToolBarHelper::title(Text::_('COM_TEMPUS_TITLE_SINGER'), 'singer.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create'))))
 		{
-			JToolBarHelper::apply('song.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('song.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::apply('singer.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('singer.save', 'JTOOLBAR_SAVE');
 		}
 
 		if (!$checkedOut && ($canDo->get('core.create')))
 		{
-			JToolBarHelper::custom('song.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::custom('singer.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			// Para incluir el botón de guardar como copia debo corregir el método save de model para que cambie nombre y alias
-			//JToolBarHelper::custom('song.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::custom('singer.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		// Button for version control
 		if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit')) {
-			JToolbarHelper::versions('com_tempus.song', $this->item->id);
+			JToolbarHelper::versions('com_tempus.singer', $this->item->id);
 		}
 
 		if (empty($this->item->id))
 		{
-			JToolBarHelper::cancel('song.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('singer.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else
 		{
-			JToolBarHelper::cancel('song.cancel', 'JTOOLBAR_CLOSE');
+			JToolBarHelper::cancel('singer.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 

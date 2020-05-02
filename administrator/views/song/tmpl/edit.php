@@ -22,9 +22,6 @@ HTMLHelper::_('behavior.formvalidation');
 HTMLHelper::_('formbehavior.chosen', 'select');
 HTMLHelper::_('behavior.keepalive');
 
-// Import CSS
-$document = Factory::getDocument();
-$document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
 ?>
 <script type="text/javascript">
 	js = jQuery.noConflict();

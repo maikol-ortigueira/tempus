@@ -9,7 +9,7 @@
     <authorUrl>[http://url.com]</authorUrl>
     <version>1.0.0</version>
     <description>COM_TEMPUS_XML_DESCRIPTION</description>
-    
+    <!-- <scriptfile>script.php</scriptfile> -->
     <install> <!-- Runs on install -->
         <sql>
             <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -41,7 +41,7 @@
         <folder>css</folder>
     </media>
     <languages folder="site/languages">
-        
+
 			<language tag="en-GB">en-GB/en-GB.com_tempus.ini</language>
 			<language tag="es-ES">es-ES/es-ES.com_tempus.ini</language>
     </languages>
@@ -49,6 +49,7 @@
         <menu>COM_TEMPUS</menu>
         <submenu>
  			<menu link="option=com_tempus&amp;view=songs" view="songs" alt="Tempus/Songs">COM_TEMPUS_TITLE_SONGS</menu>
+             <!--###new-view###-->
        </submenu>
         <files folder="administrator">
             <filename>access.xml</filename>
@@ -81,5 +82,5 @@
     <plugins>
         <plugin group="search" plugin="tempus"/>
     </plugins>
-    
+
 </extension>

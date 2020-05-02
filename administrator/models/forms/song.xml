@@ -69,6 +69,7 @@
       class="inputbox"
       size="45"
       labelclass="control-label"/>
+    <!--###general###-->
   </fieldset>
   <fieldset name="header">
 		<field
@@ -107,7 +108,7 @@
       label="Autor"
       description="Autor de la canción"
     />
-
+    <!--###header###-->
   </fieldset>
   <fieldset name="hidden">
     <field
@@ -119,6 +120,7 @@
       default="0000-00-00 00:00:00"
       type="hidden"
       filter="unset"/>
+    <!--###hidden###-->
   </fieldset>
   <fields name="documents">
     <fieldset name="sheets">
