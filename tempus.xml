@@ -49,7 +49,9 @@
         <menu>COM_TEMPUS</menu>
         <submenu>
  			<menu link="option=com_tempus&amp;view=songs" view="songs" alt="Tempus/Songs">COM_TEMPUS_TITLE_SONGS</menu>
-             <!--###new-view###-->
+            <menu link="option=com_tempus&amp;view=concerts" view="concerts" alt="Tempus/Concerts">COM_TEMPUS_TITLE_CONCERTS</menu>
+			<menu link="option=com_tempus&amp;view=rehearsals" view="rehearsals" alt="Tempus/Rehearsals">COM_TEMPUS_TITLE_REHEARSALS</menu>
+			<!--###new-view###-->
        </submenu>
         <files folder="administrator">
             <filename>access.xml</filename>

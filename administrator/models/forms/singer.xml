@@ -47,6 +47,15 @@
       class="inputbox"
       size="45"
       labelclass="control-label"/>
+    <field
+			name="note"
+			type="text"
+			label="COM_TEMPUS_FIELD_NOTE_LBL"
+			description="COM_TEMPUS_SINGER_FIELD_NOTE_DESC"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
     <!--###basic###-->
   </fieldset>
   <fieldset name="hidden-fields">
@@ -65,8 +74,8 @@
     <field
       name="user_id"
       type="user"
-      label="COM_COMPONENT_SINGER_FIELD_USER_ID_LBL"
-      description="COM_COMPONENT_SINGER_FIELD_USER_ID_DESC"
+      label="COM_TEMPUS_SINGER_FIELD_USER_ID_LBL"
+      description="COM_TEMPUS_SINGER_FIELD_USER_ID_DESC"
       showon="name:"
     />
     <field
@@ -83,16 +92,16 @@
   	<field
       name="surname"
       type="text"
-      label="COM_COMPONENT_SINGER_FIELD_SURNAME_LBL"
-      description="COM_COMPONENT_SINGER_FIELD_SURNAME_DESC"
+      label="COM_TEMPUS_SINGER_FIELD_SURNAME_LBL"
+      description="COM_TEMPUS_SINGER_FIELD_SURNAME_DESC"
       readonly="true"
       showon="email!:"
     />
     <field
       name="nickname"
       type="text"
-      label="COM_COMPONENT_SINGER_FIELD_NICKNAME_LBL"
-      description="COM_COMPONENT_SINGER_FIELD_NICKNAME_DESC"
+      label="COM_TEMPUS_SINGER_FIELD_NICKNAME_LBL"
+      description="COM_TEMPUS_SINGER_FIELD_NICKNAME_DESC"
       readonly="true"
       showon="email!:"
     />
@@ -112,8 +121,8 @@
       helper_getter="voices"
       exclude="0"
       empty_option="- Selecciona registro -"
-      label="COM_COMPONENT_SINGER_FIELD_RANGE_LBL"
-      description="COM_COMPONENT_SINGER_FIELD_RANGE_DESC"
+      label="COM_TEMPUS_SINGER_FIELD_RANGE_LBL"
+      description="COM_TEMPUS_SINGER_FIELD_RANGE_DESC"
       showon="email!:"
     />
   <!--###details###-->

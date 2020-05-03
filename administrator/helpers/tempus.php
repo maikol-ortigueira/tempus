@@ -48,6 +48,18 @@ class TempusHelper
 			$vName == 'singers'
 		);
 
+		JHtmlSidebar::addEntry(
+			Text::_('COM_TEMPUS_TITLE_CONCERTS'),
+			'index.php?option=com_tempus&view=concerts',
+			$vName == 'concerts'
+		);
+
+		JHtmlSidebar::addEntry(
+			Text::_('COM_TEMPUS_TITLE_REHEARSALS'),
+			'index.php?option=com_tempus&view=rehearsals',
+			$vName == 'rehearsals'
+		);
+
 		/*###addSubmenu-new-view###*/
 
 	}

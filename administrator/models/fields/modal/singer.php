@@ -41,7 +41,7 @@ class JFormFieldModal_Singer extends JFormField
 		$allowSelect    = ((string) $this->element['select'] != 'false');
 		$allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-		$languages = LanguageHelper::getTempusLanguages(array(0, 1));
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		// Load language
 		JFactory::getLanguage()->load('com_tempus', JPATH_ADMINISTRATOR);

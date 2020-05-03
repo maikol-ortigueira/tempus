@@ -67,8 +67,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?><!-- Start tab set -->
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_TEMPUS_TAB_DETAILS', true)); ?><!-- Start basic tab -->
 	<div class="row-fluid">
-		<div class="span12 form-horizontal">
+		<div class="span9 form-horizontal">
 			<?php echo $this->form->renderFieldset('details'); ?>
+		</div>
+		<div class="span3">
+			<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 		</div>
 	</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?><!-- End of basic tab -->

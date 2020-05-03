@@ -37,6 +37,8 @@ class TempusModelSingers extends \Joomla\CMS\MVC\Model\ListModel
 				'state', 'a.`state`',
 				'created_by', 'a.`created_by`',
 				'modified_by', 'a.`modified_by`',
+				'name', 'a.`name`',
+				'range', 'a.`range`',
 				/*###construct-new-field###*/
 			);
 		}
@@ -92,6 +94,7 @@ class TempusModelSingers extends \Joomla\CMS\MVC\Model\ListModel
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.range');
 
 		return parent::getStoreId($id);
 	}
@@ -133,6 +136,9 @@ class TempusModelSingers extends \Joomla\CMS\MVC\Model\ListModel
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
+
+		// Filter by range state
+		$published = $this->getState('filter.range');
 
 		if (is_numeric($published))
 		{

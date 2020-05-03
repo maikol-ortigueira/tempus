@@ -1,14 +1,14 @@
-.icon-48-songs {
-      background-image: url(../images/l_songs.png);
+.icon-48-rehearsals {
+      background-image: url(../images/l_rehearsals.png);
       padding-left:60px!important;
 }
 
-.icon-48-song {
-      background-image: url(../images/l_songs.png);
+.icon-48-rehearsal {
+      background-image: url(../images/l_rehearsals.png);
       padding-left:60px!important;
 }
 
-.color-box-songs { 
+.color-box-rehearsals { 
       float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
 
 

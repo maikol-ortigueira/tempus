@@ -69,6 +69,15 @@
       class="inputbox"
       size="45"
       labelclass="control-label"/>
+    <field
+			name="note"
+			type="text"
+			label="COM_TEMPUS_FIELD_NOTE_LBL"
+			description="COM_TEMPUS_SONG_FIELD_NOTE_DESC"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
     <!--###general###-->
   </fieldset>
   <fieldset name="header">
@@ -94,8 +103,8 @@
 		<field
 			name="song_note"
 			type="textarea"
-			label="COM_TEMPUS_SONG_FIELD_NOTE_LBL"
-			description="COM_TEMPUS_SONG_FIELD_NOTE_DESC"
+			label="COM_TEMPUS_SONG_FIELD_SONG_NOTE_LBL"
+			description="COM_TEMPUS_SONG_FIELD_SONG_NOTE_DESC"
       rows="3"
       cols="30"
 			maxlength="255"

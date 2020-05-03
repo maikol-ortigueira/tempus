@@ -14,6 +14,16 @@
             onchange="this.form.submit();" >
                 <option value="">JOPTION_SELECT_PUBLISHED</option>
         </field>
+        <field
+            name="range"
+            type="helperlist"
+            helper_getter="voices"
+            exclude="0"
+            empty_option="- Selecciona registro -"
+            label="COM_TEMPUS_SINGER_FIELD_RANGE_LBL"
+            description="COM_TEMPUS_SINGER_FIELD_RANGE_DESC"
+            onchange="this.form.submit();"
+        />
     </fields>
     <fields name="list">
         <field name="fullordering"
@@ -27,6 +37,8 @@
                 <option value="a.`id` DESC">COM_TEMPUS_ID_DESC</option>
                 <option value="a.`ordering` ASC">COM_TEMPUS_ORDERING_ASC</option>
                 <option value="a.`ordering` DESC">COM_TEMPUS_ORDERING_DESC</option>
+                <option value="a.`range` ASC">COM_TEMPUS_RANGE_ASC</option>
+                <option value="a.`range` DESC">COM_TEMPUS_RANGE_DESC</option>
                 <option value="a.`state` ASC">COM_TEMPUS_STATE_ASC</option>
                 <option value="a.`state` DESC">COM_TEMPUS_STATE_DESC</option>
         </field>

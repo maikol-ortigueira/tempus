@@ -76,6 +76,15 @@ $sortFields = $this->getSortFields();
 						</th><!-- Cabecera para la publicación de los elementos -->
 						<?php endif; ?>
 						<th class='left'>
+							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_TITLE_SINGERS', 'a.`name`', $listDirn, $listOrder); ?>
+						</th><!-- Cabecera para id de registros -->
+						<th class='left'>
+							<?php echo JText::_('JGLOBAL_EMAIL'); ?>
+						</th><!-- Cabecera para id de registros -->
+						<th class='left'>
+							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_SINGER_FIELD_RANGE_LBL', 'a.`range`', $listDirn, $listOrder); ?>
+						</th><!-- Cabecera para id de registros -->
+						<th class='left'>
 							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_SINGERS_ID', 'a.`id`', $listDirn, $listOrder); ?>
 						</th><!-- Cabecera para id de registros -->
 					</tr><!-- Fin de Títulos de cabecera de la tabla -->
@@ -127,6 +136,30 @@ $sortFields = $this->getSortFields();
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'singers.', $canChange, 'cb'); ?>
 							</td><!-- radio de publish o unpublish de cada fila -->
 						<?php endif; ?>
+						<td><!-- Columna nombre -->
+							<?php if ($item->checked_out) : ?>
+								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'singers.', $canCheckin); ?>
+							<?php endif; ?>
+							<?php if ($canEdit || $canEditOwn) : ?>
+								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_tempus&task=singer.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>">
+									<?php echo $this->escape($item->name) . ' ' . $this->escape($item->surname); ?></a>
+							<?php else : ?>
+								<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->name); ?></span>
+							<?php endif; ?>
+							<br><span class="small break-word">
+								<?php if (empty($item->note)) : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+								<?php else : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+								<?php endif; ?>
+							</span>
+						</td><!-- Fin columna nombre -->
+						<td>
+							<?php echo $item->email; ?>
+						</td><!-- el email de elemento de cada fila -->
+						<td>
+							<?php echo TempusHelper::getVoices()[$item->range]; ?>
+						</td><!-- el email de elemento de cada fila -->
 						<td>
 							<?php echo $item->id; ?>
 						</td><!-- el id de elemento de cada fila -->
