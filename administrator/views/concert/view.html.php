@@ -14,6 +14,9 @@ jimport('joomla.application.component.view');
 
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
+use \Joomla\CMS\HTML\HTMLHelper;
+use \Joomla\CMS\Router\Route;
+use \Joomla\CMS\Session\Session;
 
 /**
  * View to edit
@@ -112,6 +115,5 @@ class TempusViewConcert extends \Joomla\CMS\MVC\View\HtmlView
 			JToolBarHelper::cancel('concert.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
-
 	/*###newMethod###*/
 }

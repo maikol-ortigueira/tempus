@@ -20,7 +20,7 @@ use \Joomla\CMS\Language\Text;
  *
  * Optional fields are:
  * button_text 		Text that will be shown in the button.
- * button_icon 		Button icon. see https://getbootstrap.com/2.3.2/base-css.html#icons Just add the name from "icon-".
+ * button_icon 		Button icon. see https://docs.joomla.org/J3.x:Joomla_Standard_Icomoon_Fonts Just add the name from "icon-".
  * button_tooltip 	Message that will be shown when passing the mouse over the button.
  * button_class 	Button type class. The options are primary, info, success, warning, danger, inverse, link. See https://getbootstrap.com/2.3.2/base-css.html#buttons.
  * button_size 		Size of the button. The options are large, small, mini.

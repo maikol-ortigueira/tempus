@@ -9,6 +9,8 @@
  */
 
 use \Joomla\CMS\MVC\Model\ListModel;
+use \Joomla\Registry\Registry;
+use \Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
@@ -40,6 +42,7 @@ class TempusModelConcerts extends ListModel
 				'created_by', 'a.`created_by`',
 				'modified_by', 'a.`modified_by`',
 				'title', 'a.`title`',
+				'concert_date', 'a.`concert_date`',
 				/*###construct-new-field###*/
 			);
 		}
@@ -182,7 +185,31 @@ class TempusModelConcerts extends ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
+		foreach ($items as $item) {
+			if ($item AND property_exists($item, 'songs_id'))
+			{
+				$songs = explode(',', $item->songs_id);
 
+				foreach ($songs as $key => $song) {
+					$song_data = TempusHelper::getValues(['title','author','id'],'#__tempus_songs','id',$song);
+					if (!empty($song_data))
+					{
+						$item->songs[$key]['id'] = $song_data['id'];
+						$item->songs[$key]['title'] = $song_data['author'] !== '' ? $song_data['title'] . ' - ' . $song_data['author'] : $song_data['title'];
+					}
+					else
+					{
+						$item->songs[] = '';
+					}
+				}
+			}
+
+			if ($item AND property_exists($item, 'concert_location'))
+			{
+				$registry = new Registry($item->concert_location);
+				$item->concert_location = $registry->toArray();
+			}
+		}
 		return $items;
 	}
 

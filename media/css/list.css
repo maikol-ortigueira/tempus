@@ -106,3 +106,23 @@ button.open{
 div.field-filter:first-of-type{
     margin-left: 0;
 }
+
+.x-icon {
+    font-size: 20px;
+}
+
+.xx-icon {
+    font-size: 28px;
+}
+
+.icon-green {
+    color: #338000;
+}
+
+.icon-youred {
+    color: #c4302b;
+}
+
+#filter_search {
+	width: inherit;
+}

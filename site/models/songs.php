@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
+use \Joomla\Registry\Registry;
 
 jimport('joomla.application.component.modellist');
 
@@ -46,8 +47,6 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 		parent::__construct($config);
 	}
 
-        
-        
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -62,29 +61,33 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 	 *
 	 * @since    1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.title', $direction = 'ASC')
 	{
-            $app  = JFactory::getApplication();
+        $app  = JFactory::getApplication();
 		$list = $app->getUserState($this->context . '.list');
 
-		$ordering  = isset($list['filter_order'])     ? $list['filter_order']     : null;
-		$direction = isset($list['filter_order_Dir']) ? $list['filter_order_Dir'] : null;
-		if(empty($ordering)){
-		$ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', $app->get('filter_order'));
-		if (!in_array($ordering, $this->filter_fields))
+		$ordering = 'a.title';
+		//$ordering  = isset($list['filter_order'])     ? $list['filter_order']     : 'a.title';
+		//$direction = isset($list['filter_order_Dir']) ? $list['filter_order_Dir'] : 'ASC';
+
+		if(empty($ordering))
 		{
-		$ordering = "a.id";
+			$ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', $app->get('filter_order'));
+			if (!in_array($ordering, $this->filter_fields))
+			{
+				$ordering = "a.id";
+			}
+			$this->setState('list.ordering', $ordering);
 		}
-		$this->setState('list.ordering', $ordering);
-		}
+
 		if(empty($direction))
 		{
-		$direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', $app->get('filter_order_Dir'));
-		if (!in_array(strtoupper($direction), array('ASC', 'DESC', '')))
-		{
-		$direction = "ASC";
-		}
-		$this->setState('list.direction', $direction);
+			$direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', $app->get('filter_order_Dir'));
+			if (!in_array(strtoupper($direction), array('ASC', 'DESC', '')))
+			{
+				$direction = "ASC";
+			}
+			$this->setState('list.direction', $direction);
 		}
 
 		$list['limit']     = $app->getUserStateFromRequest($this->context . '.list.limit', 'limit', $app->get('list_limit'), 'uint');
@@ -94,8 +97,7 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 
 		$app->setUserState($this->context . '.list', $list);
 		$app->input->set('list', null);
-           
-            
+
         // List state information.
 
         parent::populateState($ordering, $direction);
@@ -122,19 +124,20 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 	 */
 	protected function getListQuery()
 	{
-            // Create a new query object.
-            $db    = $this->getDbo();
-            $query = $db->getQuery(true);
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
-            // Select the required fields from the table.
-            $query->select(
-                        $this->getState(
-                                'list.select', 'DISTINCT a.*'
-                        )
-                );
+		// Select the required fields from the table.
+		$query->select(
+			$this->getState(
+				'list.select',
+				'DISTINCT a.*'
+				)
+		);
 
-            $query->from('`#__tempus_songs` AS a');
-            
+		$query->from('`#__tempus_songs` AS a');
+
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS uEditor');
 		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
@@ -144,38 +147,37 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 
 		// Join over the created by field 'modified_by'
 		$query->join('LEFT', '#__users AS modified_by ON modified_by.id = a.modified_by');
-            
+
 		if (!Factory::getUser()->authorise('core.edit', 'com_tempus'))
 		{
 			$query->where('a.state = 1');
 		}
 
-            // Filter by search in title
-            $search = $this->getState('filter.search');
+		// Filter by search in title
+		$search = $this->getState('filter.search');
 
-            if (!empty($search))
-            {
-                if (stripos($search, 'id:') === 0)
-                {
-                    $query->where('a.id = ' . (int) substr($search, 3));
-                }
-                else
-                {
-                    $search = $db->Quote('%' . $db->escape($search, true) . '%');
-                }
-            }
-            
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$query->where('a.title LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%'));
+			}
+		}
 
-            // Add the list ordering clause.
-            $orderCol  = $this->state->get('list.ordering', "a.id");
-            $orderDirn = $this->state->get('list.direction', "ASC");
+		// Add the list ordering clause.
+		$orderCol  = $this->state->get('list.ordering', "a.id");
+		$orderDirn = $this->state->get('list.direction', "ASC");
 
-            if ($orderCol && $orderDirn)
-            {
-                $query->order($db->escape($orderCol . ' ' . $orderDirn));
-            }
+		if ($orderCol && $orderDirn)
+		{
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
 
-            return $query;
+		return $query;
 	}
 
 	/**
@@ -186,7 +188,12 @@ class TempusModelSongs extends \Joomla\CMS\MVC\Model\ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
-		
+		foreach ($items as $item) {
+			if ($item && property_exists($item, 'documents')) {
+				$registry = new Registry($item->documents);
+				$item->documents = $registry->toArray();
+			}
+		}
 
 		return $items;
 	}

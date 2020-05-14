@@ -8,7 +8,9 @@
 			name="instrument"
 			type="helperlist"
 			helper_getter="voices"
-			class="input-medium"
+			first_param="true"
+			translate="true"
+			empty_option="- Selecciona registro -"
 			label="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_LBL"
 			description="COM_TEMPUS_SONG_FIELD_SHEET_INSTRUMENT_DESC"
 		/>

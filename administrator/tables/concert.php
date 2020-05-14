@@ -13,6 +13,7 @@ use \Joomla\CMS\Access\Access;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Filter\OutputFilter;
 use \Joomla\CMS\Table\Table;
+use \Joomla\Registry\Registry;
 
 // No direct access
 defined('_JEXEC') or die;
@@ -73,14 +74,34 @@ class TempusTableConcert extends Table
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
+		if (isset($array['start_hour']))
+		{
+			$array['concert_date'] = $this->getDate($array['concert_date'], $array['start_hour'], $array['start_minute'], $array['start_ampm']);
+		}
+
+
+		if (isset($array['songs_id']) && is_array($array['songs_id']))
+		{
+			$array['songs_id'] = implode(',',$array['songs_id']);
+		}
+
+		if (isset($array['concert_location']) && is_array($array['concert_location']))
+		{
+			$array['title'] = $array['concert_location']['city'];
+
+			$registry = new Registry;
+			$registry->loadArray($array['concert_location']);
+			$array['concert_location'] = (string) $registry;
+		}
+
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -160,7 +181,8 @@ class TempusTableConcert extends Table
 		$this->alias = trim($this->alias);
 		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+
+			$this->alias = $this->title . ' ' . date('Y-m-d-H-i', strtotime($this->concert_date));
 		}
 		$this->alias = OutputFilter::stringURLSafe($this->alias);
 
@@ -306,6 +328,33 @@ class TempusTableConcert extends Table
 
 		return $result;
 	}
+
+	/**
+	 * Método para transformar la fecha para almacenar en la BBDD
+	 * @param	string	$oldDate	Fecha inicial
+	 * @param	int		$newHour	La hora para el nuevo valor
+	 * @param	int		$newMin		El minuto para el nuevo valor
+	 * @param	string	$ampm		Valor am o pm
+	 *
+	 * @return	La nueva fecha formateada para guardar en la bbdd
+	 */
+	protected function getDate($oldDate, $newHour, $newMin, $ampm='pm')
+	{
+		if ($ampm === 'pm')
+		{
+			$newHour = (int)$newHour + 12;
+			if ($newHour === 24)
+			{
+				$newHour = 0;
+			}
+		}
+		$date = new DateTime($oldDate);
+
+		$date->setTime($newHour, (int)$newMin, 0);
+
+		return $date->format('Y-m-d H:i:s');
+	}
+
 
 	/*###newMethod###*/
 }

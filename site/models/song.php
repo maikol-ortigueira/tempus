@@ -17,6 +17,7 @@ use \Joomla\CMS\Factory;
 use \Joomla\Utilities\ArrayHelper;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Table\Table;
+use \Joomla\Registry\Registry;
 
 /**
  * Tempus model.
@@ -27,9 +28,6 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 {
     public $_item;
 
-        
-    
-        
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -104,8 +102,6 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
                 // Attempt to load the row.
                 if ($table->load($id))
                 {
-                    
-
                     // Check published state.
                     if ($published = $this->getState('filter.published'))
                     {
@@ -118,12 +114,8 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
                     // Convert the JTable to a clean JObject.
                     $properties  = $table->getProperties(1);
                     $this->_item = ArrayHelper::toObject($properties, 'JObject');
-
-                    
-                } 
+                }
             }
-        
-            
 
 		if (isset($this->_item->created_by))
 		{
@@ -135,7 +127,13 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 			$this->_item->modified_by_name = JFactory::getUser($this->_item->modified_by)->name;
 		}
 
-            return $this->_item;
+		if (isset($this->_item->documents))
+		{
+			$registry = new Registry($this->_item->documents);
+			$this->_item->documents = $registry->toArray();
+		}
+
+		return $this->_item;
         }
 
 	/**
@@ -178,9 +176,9 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
                 $table->load(array($aliasKey => $alias));
                 $result = $table->id;
             }
-            
+
                 return $result;
-            
+
 	}
 
 	/**
@@ -196,7 +194,7 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 	{
 		// Get the id.
 		$id = (!empty($id)) ? $id : (int) $this->getState('song.id');
-                
+
 		if ($id)
 		{
 			// Initialise the table
@@ -213,7 +211,7 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 		}
 
 		return true;
-                
+
 	}
 
 	/**
@@ -230,7 +228,7 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 		// Get the user id.
 		$id = (!empty($id)) ? $id : (int) $this->getState('song.id');
 
-                
+
 		if ($id)
 		{
 			// Initialise the table
@@ -250,7 +248,7 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 		}
 
 		return true;
-                
+
 	}
 
 	/**
@@ -264,12 +262,12 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 	public function publish($id, $state)
 	{
 		$table = $this->getTable();
-                
+
 		$table->load($id);
 		$table->state = $state;
 
 		return $table->store();
-                
+
 	}
 
 	/**
@@ -283,10 +281,10 @@ class TempusModelSong extends \Joomla\CMS\MVC\Model\ItemModel
 	{
 		$table = $this->getTable();
 
-                
+
                     return $table->delete($id);
-                
+
 	}
 
-	
+
 }

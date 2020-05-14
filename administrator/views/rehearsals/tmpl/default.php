@@ -78,9 +78,18 @@ $sortFields = $this->getSortFields();
 						<th class='left'><!-- Cabecera id de items -->
 							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_ID', 'a.`id`', $listDirn, $listOrder); ?>
 						</th><!-- Fin cabecera id de items -->
-						<th class='left'><!-- Cabecera nombre de items -->
+						<th class='left'><!-- Cabecera fecha del ensayo -->
 							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_TITLE_REHEARSALS', 'a.`title`', $listDirn, $listOrder); ?>
-						</th><!-- Fin cabecera nombre de items -->
+						</th><!-- Fin cabecera fecha del ensayo -->
+						<th class='left'><!-- Cabecera hora comienzo ensayo -->
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_PLURAL_TITLE_REHEARSALS_START_TIME', 'a.`start_date`', $listDirn, $listOrder); ?>
+						</th><!-- Fin cabecera hora comienzo ensayo -->
+						<th class='left'><!-- Cabecera hora final ensayo -->
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_PLURAL_TITLE_REHEARSALS_END_TIME', 'a.`end_date`', $listDirn, $listOrder); ?>
+						</th><!-- Fin cabecera hora final ensayo -->
+						<th class='left'><!-- Cabecera concierto -->
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_PLURAL_TITLE_REHEARSALS_CONCERT', 'a.`concert_id`', $listDirn, $listOrder); ?>
+						</th><!-- Fin cabecera concierto -->
 					</tr>
 				</thead>
 				<tfoot>
@@ -98,7 +107,12 @@ $sortFields = $this->getSortFields();
 					$canEditOwn = $user->authorise('core.edit.own', 'com_tempus');
 					$canCheckin = $user->authorise('core.manage', 'com_tempus');
 					$canChange  = $user->authorise('core.edit.state', 'com_tempus');
+					$concert = TempusHelper::getValues(['title', 'concert_date'],'#__tempus_concerts','id',$item->concert_id);
+
+					$concert = '<div>' . $concert['title'] . '<br><span class="small">'	. HTMLHelper::date($concert['concert_date'], Text::_('COM_TEMPUS_LIST_DATE_FORMAT')) . '</span></div>' ;
+
 					?>
+
 						<tr class="row<?php echo $i % 2; ?>">
 							<?php if (isset($this->items[0]->ordering)) : ?>
 								<td class="order nowrap center hidden-phone"><!-- Columna orden -->
@@ -140,9 +154,9 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_tempus&task=rehearsal.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+										<?php echo HTMLHelper::date($this->escape($item->start_date), Text::_('COM_TEMPUS_LIST_DATE_FORMAT')); ?></a><br>
 								<?php else : ?>
-									<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+									<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo HTMLHelper::date($this->escape($item->start_date), Text::_('COM_TEMPUS_LIST_DATE_FORMAT')); ?></span>
 								<?php endif; ?>
 								<span class="small break-word">
 									<?php if (empty($item->note)) : ?>
@@ -152,6 +166,15 @@ $sortFields = $this->getSortFields();
 									<?php endif; ?>
 								</span>
 							</td><!-- Fin columna nombre -->
+							<td><!-- Columna hora inicio -->
+								<?php echo HTMLHelper::date($this->escape($item->start_date), Text::_('COM_TEMPUS_LIST_TIME_FORMAT')); ?>
+							</td><!-- Fin columna hora inicio -->
+							<td><!-- Columna hora final -->
+								<?php echo HTMLHelper::date($this->escape($item->end_date), Text::_('COM_TEMPUS_LIST_TIME_FORMAT')); ?>
+							</td><!-- Fin columna hora final -->
+							<td><!-- Columna hora final -->
+								<?php echo $concert; ?>
+							</td><!-- Fin columna hora final -->
 						</tr>
 					<?php endforeach; ?>
 				</tbody>

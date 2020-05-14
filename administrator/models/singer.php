@@ -89,9 +89,15 @@ class TempusModelSinger extends \Joomla\CMS\MVC\Model\AdminModel
 			$form->setFieldAttribute('user_id', 'groups', $registeredGroup);
 
 			// Eliminar de la búsqueda de usuarios a los coralistas ya asignados
-			$registered = TempusHelper::getValues('user_id', '#__tempus_singers', 'user_id', '', $condition = '<>');
+			$registered = TempusHelper::getListValues('user_id', '#__tempus_singers', 'user_id', '', $condition = '<>');
+			$users_id = array();
+			foreach ($registered as $singer ) {
+				$users_id[] = $singer['user_id'];
+			}
 
-			$form->setFieldAttribute('user_id', 'exclude', $registered);
+			$users_id = implode(',', $users_id);
+
+			$form->setFieldAttribute('user_id', 'exclude', $users_id);
 
             if (empty($form))
             {

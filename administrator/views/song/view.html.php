@@ -29,6 +29,8 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 
 	protected $form;
 
+	protected $return;
+
 	/**
 	 * Display the view
 	 *
@@ -49,6 +51,8 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 		{
 			throw new Exception(implode("\n", $errors));
 		}
+
+		$this->getRedirect();
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -129,5 +133,11 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 
 		// Import CSS
 		$this->document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
+	}
+
+	protected function getRedirect()
+	{
+		$app = JFactory::getApplication();
+		$this->return = $app->input->get('return', '', 'base64');
 	}
 }

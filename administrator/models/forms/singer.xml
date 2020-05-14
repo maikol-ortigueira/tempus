@@ -119,7 +119,7 @@
       name="range"
       type="helperlist"
       helper_getter="voices"
-      exclude="0"
+      translate="true"
       empty_option="- Selecciona registro -"
       label="COM_TEMPUS_SINGER_FIELD_RANGE_LBL"
       description="COM_TEMPUS_SINGER_FIELD_RANGE_DESC"

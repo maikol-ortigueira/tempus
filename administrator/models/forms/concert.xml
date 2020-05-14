@@ -74,6 +74,7 @@
    	<field
       name="title"
       type="text"
+      readonly="true"
       label="COM_TEMPUS_CONCERT_FIELD_TITLE_LBL"
       description="COM_TEMPUS_CONCERT_FIELD_TITLE_DESC"
 	  />
@@ -85,17 +86,140 @@
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"
 		/>
+		<field
+			name="concert_date"
+			type="calendar"
+      class="input-small"
+			filter="user_utc"
+			todaybutton="true"
+			filltable="true"
+			translateformat="true"
+			format="%d-%m-%Y"
+			singleheader="false"
+			timeformat="12"
+			label="COM_TEMPUS_CONCERT_FIELD_CONCERT_DATE_LBL"
+			description="COM_TEMPUS_CONCERT_FIELD_CONCERT_DATE_DESC"
+		/>
+		<field
+			name="start_hour"
+			type="integer"
+      class="input-small"
+			default="12"
+			first="1"
+			last="12"
+			step="1"
+			label="COM_TEMPUS_REHEARSAL_FIELD_START_HOUR_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_START_HOUR_DESC"
+		/>
+		<field
+			name="start_minute"
+			type="minutelist"
+      class="input-small"
+			default="00"
+			step="10"
+      label=""
+      description=""
+		/>
+    <field
+      name="start_ampm"
+      type="radio"
+      default="pm"
+      label=""
+      description=""
+      class="btn-group">
+        <option value="am">am</option>
+        <option value="pm">pm</option>
+    </field>
     <field
       name="rehearsal_id"
       type="modal_rehearsal"
       label="COM_TEMPUS_MODAL_REHEARSAL_ID_LBL"
       description="COM_TEMPUS_MODAL_REHEARSAL_ID_DESC"
       required=""
-      select="true"
+      select="false"
       new="true"
       edit="true"
-      clear="true"
+      clear="false"
+      propagate="false"
      />
-    <!--###details###-->
+    <field
+      name="songs_id"
+      type="sql"
+      sql_select="s.title, s.id, concat( title, ' (', author, ')') AS titulo"
+      sql_from="#__tempus_songs AS s"
+      sql_order="s.title ASC"
+      key_field="id"
+      value_field="titulo"
+      multiple="true"
+      label="COM_TEMPUS_CONCERT_FIELD_SONGS_ID_LBL"
+      description="COM_TEMPUS_CONCERT_FIELD_SONGS_ID_DESC"
+    />
+    <field
+			name="extended_note"
+			type="textarea"
+			rows="10"
+			cols="5"
+			label="COM_TEMPUS_CONCERT_FIELD_EXTENDED_NOTE_LBL"
+			description="COM_TEMPUS_CONCERT_FIELD_EXTENDED_NOTE_DESC"
+		/>
+		<!--###details###-->
   </fieldset>
+  <fields name="concert_location">
+    <fieldset name="location">
+      <field
+        name="address"
+        type="text"
+        class="input-xxlarge"
+        label="COM_TEMPUS_CONCERT_FIELD_ADDRESS_LBL"
+        description="COM_TEMPUS_CONCERT_FIELD_ADDRESS_DESC"
+      />
+      <field
+        name="city"
+        type="text"
+        required="true"
+        label="COM_TEMPUS_CONCERT_FIELD_CITY_LBL"
+        description="COM_TEMPUS_CONCERT_FIELD_CITY_DESC"
+      />
+		  <field
+        name="prov"
+        type="text"
+        label="COM_TEMPUS_CONCERT_FIELD_PROV_LBL"
+        description="COM_TEMPUS_CONCERT_FIELD_PROV_DESC"
+      />
+      <field
+        name="postal_zc"
+        type="text"
+        size="15"
+        class="input-small"
+        label="COM_TEMPUS_CONCERT_FIELD_POSTAL_ZC_LBL"
+        description="COM_TEMPUS_CONCERT_FIELD_POSTAL_ZC_DESC"
+      />
+      <field
+        name="coord"
+        type="spacer"
+        hr="false"
+        label="COM_TEMPUS_CONCERT_FIELD_COORD_LBL"
+      />
+      <fields name='coordinates'>
+        <field
+          name="lat"
+          type="text"
+          label="COM_TEMPUS_CONCERT_FIELD_LAT_LBL"
+          description="COM_TEMPUS_CONCERT_FIELD_LAT_DESC"
+        />
+        <field
+          name="long"
+          type="text"
+          label="COM_TEMPUS_CONCERT_FIELD_LONG_LBL"
+          description="COM_TEMPUS_CONCERT_FIELD_LONG_DESC"
+        />
+      <field
+        name="spacer"
+        type="spacer"
+        hr="true"
+      />
+      </fields>
+      <!--###location###-->
+    </fieldset>
+  </fields>
 </form>

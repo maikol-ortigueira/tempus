@@ -8,6 +8,7 @@
  */
 
  use \Joomla\CMS\MVC\Controller\FormController;
+ use \Joomla\CMS\Factory;
 
 // No direct access
 defined('_JEXEC') or die;
@@ -30,6 +31,13 @@ class TempusControllerRehearsal extends FormController
 	{
 		$this->view_list = 'rehearsals';
 		parent::__construct();
+	}
+
+	public function save($key = null, $urlVar = null)
+	{
+		$app = JFactory::getApplication();
+
+		parent::save($key, $urlVar);
 	}
 
 	/*###newMethod###*/

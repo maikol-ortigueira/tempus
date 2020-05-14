@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class TempusControllerConcerts extends TempusController
+class TempusControllerEvents extends TempusController
 {
 	/**
 	 * Proxy for getModel.
@@ -28,7 +28,7 @@ class TempusControllerConcerts extends TempusController
 	 *
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Concerts', $prefix = 'TempusModel', $config = array())
+	public function &getModel($name = 'Events', $prefix = 'TempusModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 

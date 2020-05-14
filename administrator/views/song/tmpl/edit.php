@@ -84,6 +84,7 @@ HTMLHelper::_('behavior.keepalive');
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<!-- Cierre de pestañas -->
+	<input type="hidden" name="return" value="<?php echo $this->return; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>

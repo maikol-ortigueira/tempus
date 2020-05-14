@@ -50,10 +50,10 @@ class TempusTableRehearsal extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
+		$app = JFactory::getApplication();
 	    $date = Factory::getDate();
-		$task = Factory::getApplication()->input->get('task');
 
-		$input = JFactory::getApplication()->input;
+		$input = $app->input;
 		$task = $input->getString('task', '');
 
 		if ($array['id'] == 0 && empty($array['created_by']))
@@ -69,6 +69,61 @@ class TempusTableRehearsal extends Table
 		if ($task == 'apply' || $task == 'save')
 		{
 			$array['modified_by'] = JFactory::getUser()->id;
+		}
+
+		if (isset($array['rehearsal_date']))
+		{
+			$array['start_date'] = $this->getDate($array['rehearsal_date'], $array['start_hour'], $array['start_minute'], $array['start_ampm']);
+			$array['end_date'] = $this->getDate($array['rehearsal_date'], $array['end_hour'], $array['end_minute'], $array['end_ampm']);
+
+			// Comprobar que las horas están bien
+			$endTime = (int) strtotime($array['end_date'])/60;
+			$startTime = (int) strtotime($array['start_date'])/60;
+			$difTime = ($endTime - $startTime);
+
+			// Si la diferencia entre la hora de inicio y la hora de finalización no supera la media hora
+			if (30 > $difTime)
+			{
+				$app->enqueueMessage(Text::sprintf('COM_TEMPUS_REHEARSAL_LESS_THAN_ONE_HOUR_MESSAGE', Text::_('COM_TEMPUS_TIME_HALF_HOUR'), (string) $difTime), 'warning');
+			}
+			// Si la diferencia entre la hora de inicio y la hora de finalización no supera la hora
+			if (60 > $difTime && $difTime >= 30)
+			{
+				$app->enqueueMessage(Text::sprintf('COM_TEMPUS_REHEARSAL_LESS_THAN_ONE_HOUR_MESSAGE', Text::_('COM_TEMPUS_TIME_ONE_HOUR'), (string) $difTime));
+			}
+			// Si la hora comienzo es mayor o igual a la hora de finalización.
+			if (0 >= $difTime)
+			{
+				$this->setError(Text::_('COM_TEMPUS_END_TIME_LOWER_THAN_START_TIME'));
+				return false;
+			}
+		}
+
+		if (isset($array['convocation']) && is_array($array['convocation']))
+		{
+			// Recuperamos las voces existentes
+			$voices = TempusHelper::getVoices();
+
+			$convocation = array();
+			foreach ($voices as $key => $voice) {
+				$voice = $voice . '_ids';
+				if (isset($array['convocation'][$voice]) && is_array($array['convocation'][$voice]))
+				{
+					$convocation[TempusHelper::getVoices()[$key]] = implode(',', $array['convocation'][$voice]);
+				}
+				else
+				{
+					$convocation[TempusHelper::getVoices()[$key]] = '';
+				}
+			}
+			$registry = new JRegistry;
+			$registry->loadArray($convocation);
+			$array['convocation'] = (string) $registry;
+		}
+
+		if (isset($array['songs_id']) && is_array($array['songs_id']))
+		{
+			$array['songs_id'] = implode(',', $array['songs_id']);
 		}
 
 		if (isset($array['params']) && is_array($array['params']))
@@ -305,6 +360,32 @@ class TempusTableRehearsal extends Table
 		$result = parent::delete($pk);
 
 		return $result;
+	}
+
+	/**
+	 * Método para transformar la fecha para almacenar en la BBDD
+	 * @param	string	$oldDate	Fecha inicial
+	 * @param	int		$newHour	La hora para el nuevo valor
+	 * @param	int		$newMin		El minuto para el nuevo valor
+	 * @param	string	$ampm		Valor am o pm
+	 *
+	 * @return	La nueva fecha formateada para guardar en la bbdd
+	 */
+	protected function getDate($oldDate, $newHour, $newMin, $ampm='pm')
+	{
+		if ($ampm === 'pm')
+		{
+			$newHour = (int)$newHour + 12;
+			if ($newHour === 24)
+			{
+				$newHour = 0;
+			}
+		}
+		$date = new DateTime($oldDate);
+
+		$date->setTime($newHour, (int)$newMin, 0);
+
+		return $date->format('Y-m-d H:i:s');
 	}
 
 	/*###newMethod###*/

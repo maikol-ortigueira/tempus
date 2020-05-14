@@ -75,6 +75,8 @@ if (!empty($editor))
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
+						<th width="1%" class="hidden-phone"><!-- Cabecera selectores de items -->
+						</th><!-- Fin cabecera selectores de items -->
 						<th width="1%" class="center nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
@@ -104,6 +106,9 @@ if (!empty($editor))
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
+						<td class="hidden-phone"><!-- Columna cuadro selector -->
+							<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+						</td><!-- Fin columna cuadro selector -->
 						<td class="center">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>

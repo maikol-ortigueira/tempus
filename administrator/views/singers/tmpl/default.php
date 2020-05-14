@@ -158,7 +158,7 @@ $sortFields = $this->getSortFields();
 							<?php echo $item->email; ?>
 						</td><!-- el email de elemento de cada fila -->
 						<td>
-							<?php echo TempusHelper::getVoices()[$item->range]; ?>
+							<?php echo Text::_('COM_TEMPUS_VOICES_'.TempusHelper::getVoices()[$item->range]); ?>
 						</td><!-- el email de elemento de cada fila -->
 						<td>
 							<?php echo $item->id; ?>

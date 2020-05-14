@@ -36,6 +36,7 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 	protected $translate;
 	protected $exclude;
 	protected $empty_option;
+	protected $first_param;
 
 	/**
 	 * Method to get the field input markup.
@@ -58,6 +59,9 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 
 		// get the empty_option value
 		$this->empty_option = $this->getAttribute('empty_option');
+
+		// get the first_param value
+		$this->first_param = $this->getAttribute('first_param');
 
 		$html = array();
 		$attr = '';
@@ -127,6 +131,8 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 		// Initialize variables.
 		$options = array();
 
+		$firstParam = isset($this->first_param) ? $this->first_param : '';
+
 		if (isset($this->empty_option))
 		{
 			$option['value'] = '';
@@ -141,7 +147,7 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 		}
 
 		$getter = 'get' . $array;
-		$optiones = TempusHelper::$getter();
+		$optiones = TempusHelper::$getter($firstParam);
 
 		$optiones = $this->helper_getter === 'emailtemplates' ? array_keys($optiones) : $optiones;
 
@@ -159,6 +165,16 @@ class JFormFieldHelperList extends \Joomla\CMS\Form\FormField
 					$option['text'] = Text::_($text);
 					$options[$value] = (object) $option;
 				}
+			}
+			else
+			{
+				if ($this->translate)
+				{
+					$text = 'COM_TEMPUS_' . strtoupper($this->helper_getter) . '_' . strtoupper($text);
+				}
+				$option['value'] = $value;
+				$option['text'] = Text::_($text);
+				$options[$value] = (object) $option;
 			}
 
 		}

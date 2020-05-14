@@ -63,6 +63,10 @@ CREATE TABLE IF NOT EXISTS `#__tempus_concerts` (
 `alias` VARCHAR(100) NOT NULL ,
 `rehearsal_id` INT(11) NOT NULL ,
 `note` VARCHAR(120) NOT NULL ,
+`songs_id` VARCHAR (255) NOT NULL ,
+`extended_note` text NOT NULL ,
+`concert_location` text NOT NULL ,
+`concert_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ,
 /*###tempus_concerts###*/
 PRIMARY KEY (`id`)
 ) DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -86,6 +90,12 @@ CREATE TABLE IF NOT EXISTS `#__tempus_rehearsals` (
 `title` VARCHAR(100) NOT NULL ,
 `alias` VARCHAR(100) NOT NULL ,
 `note` VARCHAR(120) NOT NULL ,
+`start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+`end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+`extended_note` text NOT NULL ,
+`songs_id` VARCHAR(255) NOT NULL ,
+`concert_id` INT(11)  NOT NULL ,
+`convocation` text NOT NULL ,
 /*###tempus_rehearsals###*/
 PRIMARY KEY (`id`)
 ) DEFAULT COLLATE=utf8mb4_unicode_ci;

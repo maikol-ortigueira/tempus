@@ -12,6 +12,7 @@ use \Joomla\CMS\Table\Table;
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\Registry\Registry;
 
 // No direct access.
 defined('_JEXEC') or die;
@@ -129,9 +130,42 @@ class TempusModelRehearsal extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk))
+		$item = parent::getItem($pk);
+		if ($item AND property_exists($item, 'songs_id'))
 		{
-			// Do any procesing on fields here if needed
+			$item->songs_id = explode(',', $item->songs_id);
+		}
+
+		if ($item AND property_exists($item, 'convocation'))
+		{
+			$registry = new Registry($item->convocation);
+			$voices = $registry->toArray();
+			$convocation = array();
+
+			foreach ($voices as $voice => $members) {
+				$convocation[$voice.'_ids'] = explode(',' ,$members);
+			}
+
+			$item->convocation = $convocation;
+		}
+
+		if ($item AND property_exists($item, 'start_date'))
+		{
+			$startDate = new DateTime($item->start_date);
+
+			$item->rehearsal_date = $startDate->format('d-m-Y');
+			$item->start_hour = (int) $startDate->format('h');
+			$item->start_minute = $startDate->format('i');
+			$item->start_ampm = strtolower($startDate->format('A'));
+		}
+
+		if ($item AND property_exists($item, 'end_date'))
+		{
+			$endDate = new DateTime($item->end_date);
+
+			$item->end_hour = (int) $endDate->format('h');
+			$item->end_minute = $endDate->format('i');
+			$item->end_ampm = strtolower($endDate->format('A'));
 		}
 
 		return $item;

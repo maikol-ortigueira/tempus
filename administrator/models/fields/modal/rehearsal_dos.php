@@ -13,7 +13,6 @@ use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Session\Session;
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\HTML\HTMLHelper;
-use \Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
@@ -52,22 +51,6 @@ class JFormFieldModal_Rehearsal extends FormField
 		// Load language
 		Factory::getLanguage()->load('com_tempus', JPATH_ADMINISTRATOR);
 
-		// The concert id
-		$input = Factory::getApplication()->input;
-		$concert_id = $input->get('id', 0, 'int');
-
-		// Preparar los datos de la tabla
-		$array = TempusHelper::getListValues(['start_date', 'end_date', 'id'], '#__tempus_rehearsals', 'concert_id', $concert_id);
-
-		$rehearsals = array();
-
-		foreach ($array as $key => $value) {
-			$rehearsals[$key]['date'] = HTMLHelper::date($value['start_date'], Text::_('COM_TEMPUS_LIST_DATE_FORMAT'));
-			$rehearsals[$key]['start']= HTMLHelper::date($value['start_date'], Text::_('COM_TEMPUS_LIST_TIME_FORMAT'));
-			$rehearsals[$key]['end']= HTMLHelper::date($value['end_date'], Text::_('COM_TEMPUS_LIST_TIME_FORMAT'));
-			$rehearsals[$key]['id']= $value['id'];
-		}
-
 		// The active rehearsal id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
@@ -78,15 +61,38 @@ class JFormFieldModal_Rehearsal extends FormField
 		HTMLHelper::_('jquery.framework');
 		HTMLHelper::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
 
-		// Setup variables for display.
-		$linkRehearsal  = 'index.php?option=com_tempus&amp;view=rehearsal&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-		$linkEditRehearsal  = 'index.php?option=com_tempus&amp;view=rehearsal&amp;' . Session::getFormToken() . '=1';
+		// Script to proxy the select modal function to the modal-fields.js file.
+		if ($allowSelect)
+		{
+			static $scriptSelect = null;
 
+			if (is_null($scriptSelect))
+			{
+				$scriptSelect = array();
+			}
+
+			if (!isset($scriptSelect[$this->id]))
+			{
+				Factory::getDocument()->addScriptDeclaration("
+				function jSelectRehearsal_" . $this->id . "(id, title, catid, object, url, language) {
+					window.processModalSelect('Rehearsal', '" . $this->id . "', id, title, catid, object, url, language);
+				}
+				");
+
+				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
+
+				$scriptSelect[$this->id] = true;
+			}
+		}
+
+		// Setup variables for display.
+		$linkRehearsals = 'index.php?option=com_tempus&amp;view=rehearsals&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+		$linkRehearsal  = 'index.php?option=com_tempus&amp;view=rehearsal&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 
 		if (isset($this->element['language']))
 		{
+			$linkRehearsals .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkRehearsal  .= '&amp;forcedLanguage=' . $this->element['language'];
-			$linkEditRehearsal  .= '&amp;forcedLanguage=' . $this->element['language'];
 			$modalTitle    = Text::_('COM_TEMPUS_CHANGE_REHEARSAL') . ' &#8212; ' . $this->element['label'];
 		}
 		else
@@ -94,7 +100,8 @@ class JFormFieldModal_Rehearsal extends FormField
 			$modalTitle    = Text::_('COM_TEMPUS_CHANGE_REHEARSAL');
 		}
 
-		$urlEdit   = $linkEditRehearsal . '&amp;task=rehearsal.edit&amp;id=';
+		$urlSelect = $linkRehearsals . '&amp;function=jSelectRehearsal_' . $this->id;
+		$urlEdit   = $linkRehearsal . '&amp;task=rehearsal.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
 		$urlNew    = $linkRehearsal . '&amp;task=rehearsal.add';
 
 		if ($value)
@@ -118,86 +125,23 @@ class JFormFieldModal_Rehearsal extends FormField
 
 		$title = empty($title) ? Text::_('COM_TEMPUS_SELECT_AN_REHEARSAL') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-		$html = '<fieldset>';
-		$html .= '<legend>' . Text::_('COM_TEMPUS_CONCERT_REHEARSALS_FIELDSET');
-		$html .= '</legend>';
-		$html .= '</fieldset>';
-
-		// The rehearsal table list
-		if ((isset($rehearsals)) && !empty($rehearsals))
-		{
-			// Comienzo de la tabla
-			$html .= '<table class="table table-striped">';
-			// Cabecera
-			$html .= '<thead><tr><th>'
-				. Text::_('COM_TEMPUS_CONCERT_REHEARSALS_LIST_DATE_TITLE')
-				. '</th><th>'
-				. Text::_('COM_TEMPUS_CONCERT_REHEARSALS_LIST_START_TITLE')
-				. '</th><th>'
-				. Text::_('COM_TEMPUS_CONCERT_REHEARSALS_LIST_END_TITLE')
-				. '</th></tr></thead>';
-		}
-		else
-		{
-			$html .= Text::_('<p>No hay ensayos asignados todavía para este concierto.</p><p>Pulsa el botón crear para añadir.</p>');
-			$html .= '<p></p>';
-		}
-		// El cuerpo de la tabla
-		// Etiqueta de inicio de cuerpo
-		$html .= '<tbody>';
-
-		// Los ensayos
-		foreach ($rehearsals as $rehearsal ) {
-
-			$option = $input->get('option');
-			$view = $input->get('view');
-			$id = $input->get('id');
-			$layout = $input->get('layout');
-
-			$return = '&return=' . urlencode(base64_encode('index.php?option='.$option.'&view='.$view.'&id='.$id.'&layout='.$layout));
-
-			// Inicio de fila
-			$html .= '<tr>';
-			// Fecha del ensayo
-			if ($allowEdit){
-				$html .= '<td>'
-					. '<a'
-					. ' href="' . $urlEdit . $rehearsal['id'] . $return . '"'
-					. ' id="' . $rehearsal['id'] . '_edit"'
-					. ' title="' . HTMLHelper::tooltipText('COM_TEMPUS_EDIT_REHEARSAL') . '">'
-					. '<span class="icon-edit" aria-hidden="true"></span> '
-					. '<span class="label label-important">' . $rehearsal['date'] . '</span>'
-					. '</a>'
-					. '</td>'
-				;
-			}
-			else
-			{
-				$html .= '<td>'
-					. '<span class="badge badge-important">' . $rehearsal['date'] . '</span>'
-					. '</td>'
-				;
-			}
-			// Hora de inicio
-			$html .= '<td>'
-				. $rehearsal['start']
-				. '</td>';
-			// Hora de finalización
-			$html .= '<td>'
-				. $rehearsal['end']
-				. '</td>';
-			// Cierre de fila
-			$html .= '</tr>';
-		}
-
-		// Cierre del cuerpo
-		$html .= '</tbody>';
-		// Cierre de la tabla
-		$html .= '</table>';
-		$html .= '<hr>';
-
 		// The current rehearsal display field.
-		$html  .= '<span class="input">';
+		$html  = '<span class="input-prepend">';
+		//$html .= '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
+
+		// Select rehearsal button
+		if ($allowSelect)
+		{
+			$html .= '<button'
+				. ' type="button"'
+				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' id="' . $this->id . '_select"'
+				. ' data-toggle="modal"'
+				. ' data-target="#ModalSelect' . $modalId . '"'
+				. ' title="' . HTMLHelper::tooltipText('COM_TEMPUS_CHANGE_REHEARSAL') . '">'
+				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. '</button>';
+		}
 
 		// New rehearsal button
 		if ($allowNew)
@@ -213,7 +157,68 @@ class JFormFieldModal_Rehearsal extends FormField
 				. '</button>';
 		}
 
+		// Edit rehearsal button
+		if ($allowEdit)
+		{
+			$html .= '<button'
+				. ' type="button"'
+				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' id="' . $this->id . '_edit"'
+				. ' data-toggle="modal"'
+				. ' data-target="#ModalEdit' . $modalId . '"'
+				. ' title="' . HTMLHelper::tooltipText('COM_TEMPUS_EDIT_REHEARSAL') . '">'
+				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. '</button>';
+		}
+
+		// Clear rehearsal button
+		if ($allowClear)
+		{
+			$html .= '<button'
+				. ' type="button"'
+				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+				. ' id="' . $this->id . '_clear"'
+				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
+				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
+				. '</button>';
+		}
+
+		// Propagate rehearsal button
+		if ($allowPropagate && count($languages) > 2)
+		{
+			// Strip off language tag at the end
+			$tagLength = (int) strlen($this->element['language']);
+			$callbackFunctionStem = substr("jSelectRehearsal_" . $this->id, 0, -$tagLength);
+
+			$html .= '<a'
+			. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+			. ' id="' . $this->id . '_propagate"'
+			. ' href="#"'
+			. ' title="' . HTMLHelper::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
+			. '<span class="icon-refresh" aria-hidden="true"></span>' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</a>';
+		}
+
 		$html .= '</span>';
+
+		// Select rehearsal modal
+		if ($allowSelect)
+		{
+			$html .= HTMLHelper::_(
+				'bootstrap.renderModal',
+				'ModalSelect' . $modalId,
+				array(
+					'title'       => $modalTitle,
+					'url'         => $urlSelect,
+					'height'      => '400px',
+					'width'       => '800px',
+					'bodyHeight'  => '70',
+					'modalWidth'  => '80',
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal">' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+				)
+			);
+		}
 
 		// New rehearsal modal
 		if ($allowNew)
@@ -254,7 +259,7 @@ class JFormFieldModal_Rehearsal extends FormField
 					'title'       => Text::_('COM_TEMPUS_EDIT_REHEARSAL'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'closeButton' => true,
+					'closeButton' => false,
 					'url'         => $urlEdit,
 					'height'      => '400px',
 					'width'       => '800px',

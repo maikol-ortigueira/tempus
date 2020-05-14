@@ -53,6 +53,8 @@
 			label="COM_TEMPUS_FIELD_NOTE_LBL"
 			description="COM_TEMPUS_REHEARSAL_FIELD_NOTE_DESC"
 			class="span12"
+      validate=""
+      min="1"
 			size="40"
 			maxlength="255"
 		/>
@@ -70,7 +72,7 @@
       filter="unset"/>
     <!--###hidden###-->
   </fieldset>
-  <fieldset name="details">
+  <fieldset name="details" addrulepath="administrator/components/com_tempus/models/rules">
    	<field
       name="title"
       type="text"
@@ -85,6 +87,219 @@
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"
 		/>
-    <!--###details###-->
+    <field
+			name="rehearsal_date"
+			type="calendar"
+			filter="user_utc"
+			todaybutton="true"
+			filltable="true"
+			translateformat="true"
+			format="%d-%b-%Y"
+			singleheader="true"
+			timeformat="12"
+			weeknumbers="false"
+      class="input-medium"
+			label="COM_TEMPUS_REHEARSAL_FIELD_REHEARSAL_DATE_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_REHEARSAL_DATE_DESC"
+		/>
+		<field
+			name="start_hour"
+			type="integer"
+      class="input-small"
+			default="12"
+			first="1"
+			last="12"
+			step="1"
+			label="COM_TEMPUS_REHEARSAL_FIELD_START_HOUR_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_START_HOUR_DESC"
+		/>
+		<field
+			name="start_minute"
+			type="minutelist"
+      class="input-small"
+			default="00"
+			step="10"
+      label=""
+      description=""
+		/>
+    <field
+      name="start_ampm"
+      type="radio"
+      default="pm"
+      label=""
+      description=""
+      class="btn-group">
+        <option value="am">am</option>
+        <option value="pm">pm</option>
+    </field>
+		<field
+			name="end_hour"
+			type="integer"
+      class="input-small"
+			default="12"
+			first="1"
+			last="12"
+			step="1"
+			label="COM_TEMPUS_REHEARSAL_FIELD_END_HOUR_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_END_HOUR_DESC"
+		/>
+		<field
+			name="end_minute"
+			type="minutelist"
+      class="input-small"
+			default="00"
+			step="10"
+      label=""
+      description=""
+		/>
+    <field
+      name="end_ampm"
+      type="radio"
+      default="pm"
+      label=""
+      description=""
+      class="btn-group">
+        <option value="am">am</option>
+        <option value="pm">pm</option>
+    </field>
+
+		<field
+			name="extended_note"
+			type="textarea"
+      class="input-xxlarge"
+			rows="10"
+			cols="5"
+			label="COM_TEMPUS_REHEARSAL_FIELD_EXTENDED_NOTE_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_EXTENDED_NOTE_DESC"
+		/>
+    <field
+      name="songs_id"
+      type="sql"
+      class="input-xlarge"
+      sql_select="s.title, s.id, concat( title, ' (', author, ')') AS titulo"
+      sql_from="#__tempus_songs AS s"
+      sql_order="s.title ASC"
+      key_field="id"
+      value_field="titulo"
+      multiple="true"
+      label="COM_TEMPUS_REHEARSAL_FIELD_SONGS_ID_LBL"
+      description="COM_TEMPUS_REHEARSAL_FIELD_SONGS_ID_DESC"
+    />
+    <field
+      name="concert_id"
+      type="sql"
+      sql_select="c.title AS titulo, c.id"
+      sql_from="#__tempus_concerts AS c"
+      sql_order="c.title ASC"
+      key_field="id"
+      value_field="titulo"
+      multiple="false"
+      label="COM_TEMPUS_REHEARSAL_FIELD_CONCERT_ID_LBL"
+      description="COM_TEMPUS_REHEARSAL_FIELD_CONCERT_ID_DESC"
+      header="COM_TEMPUS_SELECT_CONCERT_OPTION"
+    />
+		<!--###details###-->
+  </fieldset>
+  <fieldset name="convocation">
+    <fields name="convocation">
+      <fieldset name="sopranos">
+        <field
+          name="soprano_ids"
+          type="sql"
+          class="input-xlarge"
+          sql_select="a.name, a.surname, a.range, a.id, concat( name, ' ', surname, ' (', nickname, ')') AS titulo"
+          sql_from="#__tempus_singers AS a"
+          sql_order="a.surname ASC"
+          sql_where="a.range = 0"
+          key_field="id"
+          value_field="titulo"
+          multiple="true"
+          label="Etiqueta sopranos"
+        />
+      </fieldset>
+      <fieldset name="altos">
+        <field
+          name="alto_ids"
+          type="sql"
+          sql_select="a.name, a.surname, a.range, a.id, concat( name, ' ', surname, ' (', nickname, ')') AS titulo"
+          sql_from="#__tempus_singers AS a"
+          sql_order="a.surname ASC"
+          sql_where="a.range = 1"
+          key_field="id"
+          value_field="titulo"
+          multiple="true"
+          label=""
+        />
+      </fieldset>
+      <fieldset name="tenors">
+        <field
+          name="tenor_ids"
+          type="sql"
+          sql_select="a.name, a.surname, a.range, a.id, concat( name, ' ', surname, ' (', nickname, ')') AS titulo"
+          sql_from="#__tempus_singers AS a"
+          sql_order="a.surname ASC"
+          sql_where="a.range = 2"
+          key_field="id"
+          value_field="titulo"
+          multiple="true"
+          label=""
+        />
+      </fieldset>
+      <fieldset name="basses">
+        <field
+          name="bass_ids"
+          type="sql"
+          sql_select="a.name, a.surname, a.range, a.id, concat( name, ' ', surname, ' (', nickname, ')') AS titulo"
+          sql_from="#__tempus_singers AS a"
+          sql_order="a.surname ASC"
+          sql_where="a.range = 3"
+          key_field="id"
+          value_field="titulo"
+          multiple="true"
+          label=""
+        />
+      </fieldset>
+    </fields>
+    <field
+      name="soprano_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_SOPRANO_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="alto_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_ALTO_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="tenor_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_TENOR_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="bass_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_BASS_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+      <!--###convocation###-->
   </fieldset>
 </form>

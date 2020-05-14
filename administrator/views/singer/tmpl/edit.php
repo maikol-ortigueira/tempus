@@ -83,8 +83,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 </form>
 <script type="text/javascript">
 
-	function setValues(userId) {
-		var profiles = getProfileValues(userId);
-		console.log(JSON.parse(profiles));
-	}
+	// function setValues(userId) {
+	// 	var profiles = getProfileValues(userId);
+	// 	console.log(JSON.parse(profiles));
+	// }
 </script>

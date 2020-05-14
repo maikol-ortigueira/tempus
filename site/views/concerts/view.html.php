@@ -47,7 +47,6 @@ class TempusViewConcerts extends \Joomla\CMS\MVC\View\HtmlView
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->params = $app->getParams('com_tempus');
-		
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

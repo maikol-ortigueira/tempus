@@ -40,6 +40,9 @@ class TempusModelRehearsals extends ListModel
 				'created_by', 'a.`created_by`',
 				'modified_by', 'a.`modified_by`',
 				'title', 'a.`title`',
+				'start_date', 'a.`start_date`',
+				'end_date', 'a.`end_date`',
+				'concert_id', 'a.`concert_id`',
 				/*###construct-new-field###*/
 			);
 		}

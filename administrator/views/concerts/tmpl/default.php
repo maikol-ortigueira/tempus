@@ -40,6 +40,7 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_tempus&task=concerts.saveOrderAjax&tmpl=component';
     HTMLHelper::_('sortablelist.sortable', 'concertList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+$redirectUrl = '&return=' . urlencode(base64_encode('index.php?option=com_tempus&view=concerts'));
 
 $sortFields = $this->getSortFields();
 ?>
@@ -81,6 +82,18 @@ $sortFields = $this->getSortFields();
 						<th class='left'><!-- Cabecera nombre de items -->
 							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_TITLE_CONCERTS', 'a.`title`', $listDirn, $listOrder); ?>
 						</th><!-- Fin cabecera nombre de items -->
+						<th class='left'><!-- Cabecera Fecha de concierto -->
+							<?php echo HTMLHelper::_('searchtools.sort',  'COM_TEMPUS_TITLE_CONCERTS_DATE', 'a.`concert_date`', $listDirn, $listOrder); ?>
+						</th><!-- Fin cabecera Fecha de concierto -->
+						<th class='left'><!-- Cabecera Hora del concierto -->
+							<?php echo Text::_('COM_TEMPUS_TITLE_CONCERTS_TIME'); ?>
+						</th><!-- Fin cabecera Hora del concierto -->
+						<th class='left'><!-- Cabecera Provincia -->
+							<?php echo Text::_('COM_TEMPUS_TITLE_CONCERTS_PROVINCE'); ?>
+						</th><!-- Fin cabecera Provincia -->
+						<th class='left'><!-- Cabecera Repertorio -->
+							<?php echo Text::_('COM_TEMPUS_TITLE_CONCERTS_REPERTORIE'); ?>
+						</th><!-- Fin cabecera Repertorio -->
 					</tr>
 				</thead>
 				<tfoot>
@@ -152,6 +165,27 @@ $sortFields = $this->getSortFields();
 									<?php endif; ?>
 								</span>
 							</td><!-- Fin columna nombre -->
+							<td><!-- Columna fecha concierto -->
+								<?php echo HTMLHelper::date($item->concert_date, Text::_('COM_TEMPUS_LIST_DATE_FORMAT')); ?>
+							</td><!-- Fin columna fecha concierto -->
+							<td><!-- Columna hora concierto -->
+								<?php echo HTMLHelper::date($item->concert_date, Text::_('COM_TEMPUS_LIST_TIME_FORMAT')); ?>
+							</td><!-- Fin columna hora concierto -->
+							<td><!-- Columna hora concierto -->
+								<?php echo $item->concert_location['prov']; ?>
+							</td><!-- Fin columna hora concierto -->
+							<td>
+								<?php foreach ($item->songs as $song) : ?>
+									<?php if (is_array($song)) : ?>
+										<?php if ($canEdit || $canEditOwn) : ?>
+											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_tempus&task=song.edit&id=' . $song['id'] . $redirectUrl); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>">
+												<?php echo $song['title'] . '<br>'; ?></a>
+										<?php else : ?>
+											<?php echo $song['title'] . '<br>'; ?>
+										<?php endif; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>

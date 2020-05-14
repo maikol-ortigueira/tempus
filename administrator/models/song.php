@@ -413,7 +413,7 @@ class TempusModelSong extends AdminModel
 		$fileData['filename'] = $filename;
 
 		// Move uploaded file.
-		$this->{uploadTo . ucfirst($fileData['src_server'])}($tmp_src, $fileData['fullpath']);
+		$this->{'uploadTo' . ucfirst($fileData['src_server'])}($tmp_src, $fileData['fullpath']);
 
 		return $fileData;
 	}

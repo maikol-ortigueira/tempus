@@ -12,6 +12,7 @@ use \Joomla\CMS\Table\Table;
 use \Joomla\CMS\Factory;
 use \Joomla\CMS\Language\Text;
 use \Joomla\CMS\Plugin\PluginHelper;
+use \Joomla\Registry\Registry;
 
 // No direct access.
 defined('_JEXEC') or die;
@@ -129,9 +130,26 @@ class TempusModelConcert extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk))
+		$item = parent::getItem($pk);
+		if ($item AND property_exists($item, 'concert_location'))
 		{
-			// Do any procesing on fields here if needed
+			$registry = new Registry($item->concert_location);
+			$item->concert_location = $registry->toArray();
+		}
+
+		if ($item AND property_exists($item, 'songs_id'))
+		{
+			$item->songs_id = explode(',', $item->songs_id);
+		}
+
+		if ($item AND property_exists($item, 'concert_date'))
+		{
+			$startDate = new DateTime($item->concert_date);
+
+			$item->concert_date = $startDate->format('d-m-Y');
+			$item->start_hour = (int) $startDate->format('h');
+			$item->start_minute = $startDate->format('i');
+			$item->start_ampm = strtolower($startDate->format('A'));
 		}
 
 		return $item;

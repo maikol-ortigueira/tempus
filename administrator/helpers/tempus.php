@@ -91,7 +91,7 @@ class TempusHelper
 	}
 
 	/**
-	 * Gets a list of values from de database
+	 * Gets values of a simple row from the database
 	 *
 	 * @param   array    $fields  		Fields to return values
 	 * @param   string   $table   		Table name
@@ -113,7 +113,33 @@ class TempusHelper
 
 		$db->setQuery($query);
 
-		return $db->loadResult();
+		return $db->loadAssoc();
+	}
+
+	/**
+	 * Gets a list of values from de database
+	 *
+	 * @param   array    $fields  		Fields to return values
+	 * @param   string   $table   		Table name
+	 * @param   string   $whereField   	The field that makes the condition
+	 * @param   string   $whereValue  	Value from
+	 * @param   string   $condition  	Condition
+	 *
+	 * @return  array	Values
+	 */
+	public static function getListValues($fields = array(), $table, $whereField, $whereValue, $condition = '=')
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select($db->quoteName($fields))
+			->from($table)
+			->where($db->quoteName($whereField) . ' ' . $condition . ' ' . $db->quote($whereValue));
+
+		$db->setQuery($query);
+
+		return $db->loadAssocList();
 	}
 
 	/**
@@ -142,15 +168,19 @@ class TempusHelper
 		return $result;
 	}
 
-	public static function getVoices()
+	public static function getVoices($all=false)
 	{
 		$voices = array(
-			'0' => 'SATB',
-			'1' => 'Sopranos',
-			'2' => 'Altos',
-			'3' => 'Tenores',
-			'4' => 'Bajos',
+			'soprano',
+			'alto',
+			'tenor',
+			'bass',
 		);
+
+		if ($all)
+		{
+			array_push($voices, 'satb');
+		}
 
 		return $voices;
 	}

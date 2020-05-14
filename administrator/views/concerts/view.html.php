@@ -173,7 +173,6 @@ class TempusViewConcerts extends \Joomla\CMS\MVC\View\HtmlView
     public function getState($state)
     {
         return isset($this->state->{$state}) ? $this->state->{$state} : false;
-    }
-
+	}
 	/*###newMethod###*/
 }

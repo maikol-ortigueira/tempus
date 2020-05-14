@@ -100,5 +100,10 @@ class TempusHelpersTempus
         }
 
         return $permission;
-    }
+	}
+
+	public static function getVoices($all=false)
+	{
+		return TempusHelper::getVoices($all);
+	}
 }

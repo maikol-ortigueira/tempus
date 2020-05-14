@@ -28,6 +28,8 @@ class TempusViewRehearsal extends \Joomla\CMS\MVC\View\HtmlView
 
 	protected $form;
 
+	protected $return;
+
 	/**
 	 * Display the view
 	 *
@@ -48,6 +50,8 @@ class TempusViewRehearsal extends \Joomla\CMS\MVC\View\HtmlView
 		{
 			throw new Exception(implode("\n", $errors));
 		}
+
+		$this->getRedirect();
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -111,6 +115,12 @@ class TempusViewRehearsal extends \Joomla\CMS\MVC\View\HtmlView
 		{
 			JToolBarHelper::cancel('rehearsal.cancel', 'JTOOLBAR_CLOSE');
 		}
+	}
+
+	protected function getRedirect()
+	{
+		$app = JFactory::getApplication();
+		$this->return = $app->input->get('return', '', 'base64');
 	}
 
 	/*###newMethod###*/

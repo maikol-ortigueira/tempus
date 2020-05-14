@@ -59,8 +59,6 @@ class TempusViewSong extends \Joomla\CMS\MVC\View\HtmlView
 			throw new Exception(implode("\n", $errors));
 		}
 
-		
-
 		if ($this->_layout == 'edit')
 		{
 			$authorised = $user->authorise('core.create', 'com_tempus');
