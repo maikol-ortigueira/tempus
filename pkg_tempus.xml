@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" version="3.9" method="upgrade">
+	<name>PKG_TEMPUS</name>
+    <author>Maikol Fustes</author>
+    <authorEmail>maikol.ortigueira@gmail.com</authorEmail>
+    <authorUrl>www.maikol.eu</authorUrl>
+	<creationDate>July 2020</creationDate>
+	<packager>Maikol Fustes</packager>
+	<packagename>tempus</packagename>
+	<packagerurl></packagerurl>
+	<version>1.0.0</version>
+	<description>PKG_TEMPUS_XML_DESCRIPTION</description>
+	<!-- Extension to install -->
+	<files>
+		<!-- Components -->
+		<file type="component" id="com_tempus" >components/tempus</file>
+
+		<!-- Libraries -->
+		<!-- <file type="library" id="library">libraries/library</file>
+		-->
+
+		<!-- Modules -->
+   		<!--<file type="module" id="mod_tempus_" client="administrator">modules/admin/tempus_</file>
+		-->
+
+		<!-- Plugins -->
+		<!--<file type="plugin" id="tempus" group="tempus">plugins/tempus/tempus</file>
+		-->
+
+		<!-- Templates -->
+		<!-- <file type="template" id="sample" client="site">templates/site/sample</file
+		-->
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.pkg_tempus.sys.ini</language>
+        <language tag="es-ES">es-ES/es-ES.pkg_tempus.sys.ini</language>
+	</languages>
+</extension>
