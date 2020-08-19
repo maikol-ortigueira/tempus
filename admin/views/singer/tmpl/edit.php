@@ -54,7 +54,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 ?>
 
 <form
-	action="<?php echo JRoute::_('index.php?option=com_tempus&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
+	action="<?php echo Route::_('index.php?option=com_tempus&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
 	method="post" enctype="multipart/form-data" name="adminForm" id="singer-form" class="form-validate form-horizontal">
 
 	<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
@@ -64,8 +64,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<input type="hidden" name="jform[checked_out_time]" value="<?php echo $this->item->checked_out_time; ?>" />
 	<?php echo $this->form->renderField('created_by'); ?>
 	<?php echo $this->form->renderField('modified_by'); ?>
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?><!-- Start tab set -->
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_TEMPUS_TAB_DETAILS', true)); ?><!-- Start basic tab -->
+	<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?><!-- Start tab set -->
+	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_TEMPUS_TAB_DETAILS', true)); ?><!-- Start basic tab -->
 	<div class="row-fluid">
 		<div class="span9 form-horizontal">
 			<?php echo $this->form->renderFieldset('details'); ?>
@@ -74,11 +74,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 		</div>
 	</div>
-	<?php echo JHtml::_('bootstrap.endTab'); ?><!-- End of basic tab -->
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?><!--End of tab set -->
+	<?php echo HTMLHelper::_('bootstrap.endTab'); ?><!-- End of basic tab -->
+	<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?><!--End of tab set -->
 
 	<input type="hidden" name="task" value=""/>
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 
 </form>
 <script type="text/javascript">

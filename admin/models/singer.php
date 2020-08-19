@@ -85,7 +85,7 @@ class TempusModelSinger extends \Joomla\CMS\MVC\Model\AdminModel
                     )
 			);
 			// Asignar grupo de registrados al campo user_id para que sepa donde buscar
-			$registeredGroup = ComponentHelper::getParams('com_users')->get('new_usertype');
+			$registeredGroup = ComponentHelper::getParams('com_tempus')->get('singers_group');
 			$form->setFieldAttribute('user_id', 'groups', $registeredGroup);
 
 			// Eliminar de la búsqueda de usuarios a los coralistas ya asignados

@@ -40,7 +40,7 @@
         <folder>js</folder>
         <folder>css</folder>
     </media>
-    <languages folder="site/languages">
+    <languages folder="site/language">
 
 			<language tag="en-GB">en-GB/en-GB.com_tempus.ini</language>
 			<language tag="es-ES">es-ES/es-ES.com_tempus.ini</language>
@@ -53,7 +53,7 @@
 			<menu link="option=com_tempus&amp;view=rehearsals" view="rehearsals" alt="Tempus/Rehearsals">COM_TEMPUS_TITLE_REHEARSALS</menu>
 			<!--###new-view###-->
        </submenu>
-        <files folder="administrator">
+        <files folder="admin">
             <filename>access.xml</filename>
             <filename>config.xml</filename>
             <filename>controller.php</filename>
@@ -67,7 +67,7 @@
             <folder>tables</folder>
             <folder>views</folder>
         </files>
-        <languages folder="administrator/languages">
+        <languages folder="admin/language">
  			<language tag="en-GB">en-GB/en-GB.com_tempus.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_tempus.sys.ini</language>
 			<language tag="es-ES">es-ES/es-ES.com_tempus.ini</language>
