@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="profile">
+		<fieldset
+			name="profile"
+			label="PLG_USER_TEMPUS_SLIDER_LABEL"
+			addfieldpath="/administrator/components/com_tempus/models/fields"
+		>
+			<field
+				name="pass_note"
+				type="note"
+				class="alert alert-success"
+				label="Registro para miembros del grupo"
+				description="Si eres miembro del grupo deberás introducir la contraseña que te han facilitado para la suscripción."
+			/>
+
+			<field
+				name="lastname"
+				type="text"
+				id="lastname"
+				filter="string"
+				siza="30"
+				label="PLG_USER_TEMPUS_SURNAME_LBL"
+				description="PLG_USER_TEMPUS_SURNAME_DESC"
+			/>
+
+			<field
+				name="address1"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_ADDRESS1_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_ADDRESS1_DESC"
+				id="address1"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="address2"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_ADDRESS2_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_ADDRESS2_DESC"
+				id="address2"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="city"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_CITY_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_CITY_DESC"
+				id="city"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="region"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_REGION_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_REGION_DESC"
+				id="region"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="country"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_COUNTRY_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_COUNTRY_DESC"
+				id="country"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="postal_code"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_POSTAL_CODE_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_POSTAL_CODE_DESC"
+				id="postal_code"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="phone"
+				type="tel"
+				label="PLG_USER_TEMPUS_FIELD_PHONE_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_PHONE_DESC"
+				id="phone"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="favoritebook"
+				type="text"
+				label="PLG_USER_TEMPUS_FIELD_FAVORITE_BOOK_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_FAVORITE_BOOK_DESC"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="aboutme"
+				type="textarea"
+				label="PLG_USER_TEMPUS_FIELD_ABOUT_ME_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_ABOUT_ME_DESC"
+				cols="30"
+				rows="5"
+				filter="safehtml"
+			/>
+
+			<field
+				name="dob"
+				type="dob"
+				label="PLG_USER_TEMPUS_FIELD_DOB_LABEL"
+				description="PLG_USER_TEMPUS_FIELD_DOB_DESC"
+				info="PLG_USER_TEMPUS_SPACER_DOB"
+				translateformat="true"
+				showtime="false"
+				filter="server_utc"
+			/>
+
+			<field
+				name="photo_file"
+				type="file"
+				accept="image/*"
+				label="PLG_USER_TEMPUS_FIELD_PHOTO_LBL"
+				description="Sube tu mejor foto"
+			/>
+
+			<field
+				name="photo"
+				type="hidden"
+			/>
+
+			<field
+				name="group"
+				type="hidden"
+				default="12"
+			/>
+			
+		</fieldset>
+	</fields>
+</form>
