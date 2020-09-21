@@ -89,39 +89,11 @@ class EmailHelper
 		return $sent;
 	}
 	
-	public static function setBody($data, $bodyType = 'rehearsal')
-	{
-		switch ($bodyType) {
-			case 'rehearsal':
-				$body = self::setRehearsalBody($data);
-				return $body;
-				break;
-			
-			default:
-				# code...
-				break;
-		}
-	}
-
-	public static function setSubject($data, $bodyType = 'rehearsal')
-	{
-		switch ($bodyType) {
-			case 'rehearsal':
-				$body = self::setRehearsalSubject($data);
-				return $body;
-				break;
-			
-			default:
-				# code...
-				break;
-		}
-	}
-
-	protected static function setRehearsalBody ($data)
+	public static function setBody($data, $type = 'rehearsal')
 	{
 		$params = ComponentHelper::getParams('com_tempus');
 
-		$body = $params->get('reh_email');
+		$body = $params->get($type . '_body');
 
 		foreach ($data as $key => $value) {
 			$replace = '{' . $key . '}';
@@ -131,11 +103,11 @@ class EmailHelper
 		return $body;
 	}
 
-	protected static function setRehearsalSubject ($data)
+	public static function setSubject ($data, $type = 'rehearsal')
 	{
 		$params = ComponentHelper::getParams('com_tempus');
 
-		$subject = $params->get('reh_subject');
+		$subject = $params->get($type . '_subject');
 
 		foreach ($data as $key => $value) {
 			$replace = '{' . $key . '}';
@@ -143,6 +115,5 @@ class EmailHelper
 		}
 
 		return $subject;
-
 	}
 }

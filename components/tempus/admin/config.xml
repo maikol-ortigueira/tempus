@@ -81,7 +81,12 @@
         description="COM_TEMPUS_ADMIN_CONFIG_FIELD_NEW_REHEARSAL_NOTIFICATION_DESC"
         class="alert alert-info"
       />
-      <field name="reh_email" type="editor"
+      <field name="rehearsal_subject" type="text"
+        label="COM_TEMPUS_ADMIN_CONFIG_FIELD_SUBJECT_LBL"
+        description="COM_TEMPUS_ADMIN_CONFIG_FIELD_SUBJECT_DESC"
+        class="input-xxlarge"
+      />
+      <field name="rehearsal_body" type="editor"
         label="COM_TEMPUS_ADMIN_CONFIG_FIELD_REHEARSAL_EMAIL_LBL"
    			filter="JComponentHelper::filterText"
         button="false"

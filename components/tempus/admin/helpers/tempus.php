@@ -216,5 +216,23 @@ class TempusHelper
 
 		return $profile;
 	}
+
+	public static function get($item, $item_id): stdClass
+	{
+		$db = Factory::getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query
+			->select('*')
+			->from($db->quoteName('#__tempus_' . $item . 's'))
+			->where($db->quoteName('id') . ' = ' . $db->quote($item_id));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObject();
+
+		return $result;
+	}
 }
 

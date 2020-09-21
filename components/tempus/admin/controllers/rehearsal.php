@@ -58,8 +58,8 @@ class TempusControllerRehearsal extends FormController
 					$bodyData['song_names'] = '<ul>';
 					$bodyData['song_files'] = '<ul>';
 					foreach ($data['songs_id'] as $song) {
-						$song = TempusHelper::getValues(['title', 'author', 'documents'], '#__tempus_songs', 'id', $song);
-						$bodyData['song_names'] .= '<li>' . $song['title'] . ' - ' . $song['author'] . '</li>';
+						$song = TempusHelper::get('song', $song);
+						$bodyData['song_names'] .= '<li>' . $song->title . ' - ' . $song->author . '</li>';
 					}
 
 					$bodyData['song_names'] .= '</ul>';
