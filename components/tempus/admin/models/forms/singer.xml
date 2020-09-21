@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset name="details">
+    <field
+      name="name"
+      type="text"
+      class="inputbox"
+      label="COM_TEMPUS_SINGER_NAME_LBL"
+      description="COM_TEMPUS_SINGER_NAME_DESC"
+      filter="STRING"
+      size="40"
+      readonly="true"
+    />
+  	<field
+      name="username"
+      type="text"
+      readonly="true"
+    />
+    <field
+      name="email"
+      type="email"
+      validate="email"
+      label="JGLOBAL_EMAIL"
+      description=""
+      message="JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED"
+      readonly="true"
+    />
+  </fieldset>
+  <fields name="tempus"	>
+		<fieldset name="tempus">
+
+      <field
+        name="alias"
+        type="text"
+        label="COM_TEMPUS_ADMIN_FIELD_SINGER_ALIAS_LBL"
+        description="COM_TEMPUS_ADMIN_FIELD_SINGER_ALIAS_DESC"
+      />
+
+			<field
+				name="range"
+				type="helperlist"
+				helper_getter="voices"
+				translate="true"
+				empty_option="- Selecciona registro -"
+				label="COM_TEMPUS_SINGER_FIELD_RANGE_LBL"
+				description="COM_TEMPUS_SINGER_FIELD_RANGE_DESC"
+			/>
+
+      <field
+        name="singer_note"
+        type="textarea"
+        label="COM_TEMPUS_ADMIN_FIELD_SINGER_NOTE_LBL"
+        description="COM_TEMPUS_ADMIN_FIELD_SINGER_NOTE_DESC"
+      />
+
+		</fieldset>
+	</fields>
+</form>

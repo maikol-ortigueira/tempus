@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset name="general">
+    <field
+      name="id"
+      type="text"
+      readonly="true"
+      class="readonly"
+      default="0"
+      description="JGLOBAL_FIELD_ID_DESC"/>
+    <field
+      name="ordering"/>
+    <field
+      name="state"
+      default="1"
+      type="list"
+      label="JSTATUS"
+      description="JFIELD_PUBLISHED_DESC"
+      class="inputbox"
+      size="1">
+        <option value="1">JPUBLISHED</option>
+        <option value="0">JUNPUBLISHED</option>
+        <option value="2">JARCHIVED</option>
+        <option value="-2">JTRASHED</option>
+    </field>
+    <field
+      name="created_by"
+      type="createdby"
+      default="0"
+      label="COM_TEMPUS_CREATED_BY_LBL"
+      description="COM_TEMPUS_CREATED_BY_DESC"
+      hidden="true"
+      hint="COM_TEMPUS_CREATED_BY_LBL"/>
+    <field
+      name="modified_by"
+      type="modifiedby"
+      default="0"
+      label="COM_TEMPUS_MODIFIED_BY_LBL"
+      description="COM_TEMPUS_MODIFIED_BY_DESC"
+      hidden="true"
+      hint="COM_TEMPUS_MODIFIED_BY_LBL"/>
+    <field
+      name="version_note"
+      type="text"
+      label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+      description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+      class="inputbox"
+      size="45"
+      labelclass="control-label"/>
+    <field
+			name="note"
+			type="text"
+			label="COM_TEMPUS_FIELD_NOTE_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_NOTE_DESC"
+			class="span12"
+      validate=""
+      min="1"
+			size="40"
+			maxlength="255"
+		/>
+  </fieldset>
+  <fieldset name="hidden">
+    <field
+      name="checked_out"
+      type="hidden"
+      filter="unset"/>
+    <field
+      name="checked_out_time"
+      default="0000-00-00 00:00:00"
+      type="hidden"
+      filter="unset"/>
+  </fieldset>
+  <fieldset name="details" addrulepath="administrator/components/com_tempus/models/rules">
+   	<field
+      name="title"
+      type="text"
+      label="COM_TEMPUS_REHEARSAL_FIELD_TITLE_LBL"
+      description="COM_TEMPUS_REHEARSAL_FIELD_TITLE_DESC"
+	  />
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="40"
+		/>
+    <field
+			name="rehearsal_date"
+			type="calendar"
+			filter="user_utc"
+			todaybutton="true"
+			filltable="true"
+			translateformat="true"
+			format="%d-%b-%Y"
+			singleheader="true"
+			timeformat="12"
+			weeknumbers="false"
+      class="input-medium"
+			label="COM_TEMPUS_REHEARSAL_FIELD_REHEARSAL_DATE_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_REHEARSAL_DATE_DESC"
+		/>
+		<field
+			name="start_hour"
+			type="integer"
+      class="input-small"
+			default="12"
+			first="1"
+			last="12"
+			step="1"
+			label="COM_TEMPUS_REHEARSAL_FIELD_START_HOUR_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_START_HOUR_DESC"
+		/>
+		<field
+			name="start_minute"
+			type="minutelist"
+      class="input-small"
+			default="00"
+			step="10"
+      label=""
+      description=""
+		/>
+    <field
+      name="start_ampm"
+      type="radio"
+      default="pm"
+      label=""
+      description=""
+      class="btn-group">
+        <option value="am">am</option>
+        <option value="pm">pm</option>
+    </field>
+		<field
+			name="end_hour"
+			type="integer"
+      class="input-small"
+			default="12"
+			first="1"
+			last="12"
+			step="1"
+			label="COM_TEMPUS_REHEARSAL_FIELD_END_HOUR_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_END_HOUR_DESC"
+		/>
+		<field
+			name="end_minute"
+			type="minutelist"
+      class="input-small"
+			default="00"
+			step="10"
+      label=""
+      description=""
+		/>
+    <field
+      name="end_ampm"
+      type="radio"
+      default="pm"
+      label=""
+      description=""
+      class="btn-group">
+        <option value="am">am</option>
+        <option value="pm">pm</option>
+    </field>
+
+		<field
+			name="extended_note"
+			type="textarea"
+      class="input-xxlarge"
+			rows="10"
+			cols="5"
+			label="COM_TEMPUS_REHEARSAL_FIELD_EXTENDED_NOTE_LBL"
+			description="COM_TEMPUS_REHEARSAL_FIELD_EXTENDED_NOTE_DESC"
+		/>
+    <field
+      name="songs_id"
+      type="sql"
+      class="input-xlarge"
+      sql_select="s.title, s.id, concat( title, ' (', author, ')') AS titulo"
+      sql_from="#__tempus_songs AS s"
+      sql_order="s.title ASC"
+      key_field="id"
+      value_field="titulo"
+      multiple="true"
+      label="COM_TEMPUS_REHEARSAL_FIELD_SONGS_ID_LBL"
+      description="COM_TEMPUS_REHEARSAL_FIELD_SONGS_ID_DESC"
+    />
+    <field
+      name="concert_id"
+      type="sql"
+      sql_select="c.title AS titulo, c.id"
+      sql_from="#__tempus_concerts AS c"
+      sql_order="c.title ASC"
+      sql_where="c.state = 1"
+      key_field="id"
+      value_field="titulo"
+      multiple="false"
+      label="COM_TEMPUS_REHEARSAL_FIELD_CONCERT_ID_LBL"
+      description="COM_TEMPUS_REHEARSAL_FIELD_CONCERT_ID_DESC"
+      header="COM_TEMPUS_SELECT_CONCERT_OPTION"
+    />
+  </fieldset>
+  <fieldset name="convocation">
+    <fields name="convocation">
+      <fieldset name="sopranos">
+        <field
+          name="soprano_ids"
+          type="singers"
+          class="input-xlarge"
+          range="1"
+          multiple="true"
+          label="Etiqueta sopranos"
+        />
+      </fieldset>
+      <fieldset name="altos">
+        <field
+          name="alto_ids"
+          type="singers"
+          class="input-xlarge"
+          range="2"
+          multiple="true"
+          label="Etiqueta sopranos"
+        />
+      </fieldset>
+      <fieldset name="tenors">
+        <field
+          name="tenor_ids"
+          type="singers"
+          class="input-xlarge"
+          range="3"
+          multiple="true"
+          label="Etiqueta sopranos"
+        />
+      </fieldset>
+      <fieldset name="basses">
+        <field
+          name="bass_ids"
+          type="singers"
+          class="input-xlarge"
+          range="4"
+          multiple="true"
+          label="Etiqueta sopranos"
+        />
+      </fieldset>
+    </fields>
+    <field
+      name="soprano_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_SOPRANO_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="alto_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_ALTO_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="tenor_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_TENOR_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="bass_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_SELECT_ALL_BASS_BUTTON"
+      button_class="success"
+      button_size="small"
+      translate="true"
+      onclick="selectAll(this.id)"
+    />
+    <field
+      name="all_singers_button"
+      type="custombutton"
+      button_icon="list"
+      button_text="COM_TEMPUS_ADMIN_SELECT_ALL_SINGERS_LBL"
+      button_class="info"
+      button_size="small"
+      translate="true"
+      onclick="selectAllSingers()"
+    />
+  </fieldset>
+</form>
