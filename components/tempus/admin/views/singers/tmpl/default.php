@@ -72,8 +72,8 @@ $sortFields = $this->getSortFields();
 						</th><!-- Cabecera para los checkboxes - selectores de filas -->
 						<?php if (isset($this->items[0]->state)): ?>
 							<th width="1%" class="nowrap center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.`state`', $listDirn, $listOrder); ?>
-						</th><!-- Cabecera para la publicación de los elementos -->
+								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.`state`', $listDirn, $listOrder); ?>
+							</th><!-- Cabecera para la publicación de los elementos -->
 						<?php endif; ?>
 						<th class='left'>
 							<?php echo JHtml::_('searchtools.sort',  'COM_TEMPUS_TITLE_SINGERS', 'a.`name`', $listDirn, $listOrder); ?>
@@ -137,15 +137,15 @@ $sortFields = $this->getSortFields();
 							</td><!-- radio de publish o unpublish de cada fila -->
 						<?php endif; ?>
 						<td><!-- Columna nombre -->
-							<?php if ($item->checked_out) : ?>
+							<!-- <?php if ($item->checked_out) : ?>
 								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'singers.', $canCheckin); ?>
-							<?php endif; ?>
+							<?php endif; ?> -->
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_tempus&task=singer.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>">
 									<?php if ($item->alias) : ?>
 										<?php echo $this->escape($item->alias); ?>
 									<?php else : ?>
-											<?php echo $this->escape($item->name) . ' ' . $this->escape($item->surname); ?>
+											<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
 								</a>
 							<?php else : ?>
