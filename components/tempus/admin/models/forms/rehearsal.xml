@@ -292,4 +292,21 @@
       onclick="selectAllSingers()"
     />
   </fieldset>
+  <fieldset name="emails" label="COM_TEMPUS_ADMIN_CONFIG_TAB_GROUP_EMAILS_LBL">
+    <field name="reh_emails_note" type="note"
+      label="COM_TEMPUS_ADMIN_CONFIG_FIELD_NEW_REHEARSAL_NOTIFICATION_LBL"
+      description="COM_TEMPUS_ADMIN_CONFIG_FIELD_NEW_REHEARSAL_NOTIFICATION_DESC"
+      class="alert alert-info"
+    />
+    <field name="rehearsal_subject" type="text"
+      label="COM_TEMPUS_ADMIN_CONFIG_FIELD_SUBJECT_LBL"
+      description="COM_TEMPUS_ADMIN_CONFIG_FIELD_SUBJECT_DESC"
+      class="input-xxlarge"
+    />
+    <field name="rehearsal_body" type="editor"
+      label="COM_TEMPUS_ADMIN_CONFIG_FIELD_REHEARSAL_EMAIL_LBL"
+      filter="JComponentHelper::filterText"
+      button="false"
+    />
+  </fieldset>
 </form>

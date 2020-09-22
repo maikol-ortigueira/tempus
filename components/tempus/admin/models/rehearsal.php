@@ -7,12 +7,13 @@
  * @license    Licencia Pública General GNU versión 2 o posterior. Consulte LICENSE.txt
  */
 
-use \Joomla\CMS\MVC\Model\AdminModel;
-use \Joomla\CMS\Table\Table;
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Plugin\PluginHelper;
-use \Joomla\Registry\Registry;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 
 // No direct access.
 defined('_JEXEC') or die;
@@ -83,7 +84,11 @@ class TempusModelRehearsal extends AdminModel
                     array('control' => 'jform',
                             'load_data' => $loadData
                     )
-            );
+			);
+			$params = ComponentHelper::getParams('com_tempus');
+
+			$form->setFieldAttribute('rehearsal_subject', 'default', $params->get('rehearsal_subject'));
+			$form->setFieldAttribute('rehearsal_body', 'default', $params->get('rehearsal_body'));
 
 			if (empty($form))
             {
