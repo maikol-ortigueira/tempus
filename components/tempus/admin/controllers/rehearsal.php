@@ -81,8 +81,8 @@ class TempusControllerRehearsal extends FormController
 			}
 
 			$singer = array();
-			$singer['contact_message'] = EmailHelper::setBody($bodyData);
-			$singer['contact_subject'] = EmailHelper::setSubject($bodyData);
+			$singer['contact_message'] = EmailHelper::setBody($bodyData, $data['id']);
+			$singer['contact_subject'] = EmailHelper::setSubject($bodyData, $data['id']);
 
 		}
 

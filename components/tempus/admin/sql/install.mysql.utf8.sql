@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `#__tempus_rehearsals` (
 `extended_note` text NOT NULL ,
 `songs_id` VARCHAR(255) NOT NULL ,
 `concert_id` INT(11)  NOT NULL ,
+`notifications` text NOT NULL ,
 `convocation` text NOT NULL ,
 /*###tempus_rehearsals###*/
 PRIMARY KEY (`id`)

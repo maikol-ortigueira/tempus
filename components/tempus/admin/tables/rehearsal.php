@@ -7,12 +7,13 @@
  * @license    Licencia Pública General GNU versión 2 o posterior. Consulte LICENSE.txt
  */
 
-use \Joomla\Utilities\ArrayHelper;
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Access\Access;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Filter\OutputFilter;
-use \Joomla\CMS\Table\Table;
+use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Table\Table;
 
 // No direct access
 defined('_JEXEC') or die;
@@ -50,7 +51,7 @@ class TempusTableRehearsal extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 	    $date = Factory::getDate();
 
 		$input = $app->input;
@@ -58,17 +59,17 @@ class TempusTableRehearsal extends Table
 
 		if ($array['id'] == 0 && empty($array['created_by']))
 		{
-			$array['created_by'] = JFactory::getUser()->id;
+			$array['created_by'] = Factory::getUser()->id;
 		}
 
 		if ($array['id'] == 0 && empty($array['modified_by']))
 		{
-			$array['modified_by'] = JFactory::getUser()->id;
+			$array['modified_by'] = Factory::getUser()->id;
 		}
 
 		if ($task == 'apply' || $task == 'save')
 		{
-			$array['modified_by'] = JFactory::getUser()->id;
+			$array['modified_by'] = Factory::getUser()->id;
 		}
 
 		if (isset($array['rehearsal_date']))
@@ -116,9 +117,16 @@ class TempusTableRehearsal extends Table
 					$convocation[TempusHelper::getVoices()[$key]] = '';
 				}
 			}
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($convocation);
 			$array['convocation'] = (string) $registry;
+		}
+
+		if (isset($array['notifications']) && is_array($array['notifications']))
+		{
+			$registry = new Registry;
+			$registry->loadArray($array['notifications']);
+			$array['notifications'] = (string) $registry;
 		}
 
 		if (isset($array['songs_id']) && is_array($array['songs_id']))
@@ -128,14 +136,14 @@ class TempusTableRehearsal extends Table
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}

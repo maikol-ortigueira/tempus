@@ -89,11 +89,12 @@ class EmailHelper
 		return $sent;
 	}
 	
-	public static function setBody($data, $type = 'rehearsal')
+	public static function setBody($data, $id, $type = 'rehearsal')
 	{
-		$params = ComponentHelper::getParams('com_tempus');
+		$template = TempusHelper::get($type, $id);
+		$notifications = json_decode($template->notifications, true);
 
-		$body = $params->get($type . '_body');
+		$body = $notifications[$type . '_body'];
 
 		foreach ($data as $key => $value) {
 			$replace = '{' . $key . '}';
@@ -103,11 +104,12 @@ class EmailHelper
 		return $body;
 	}
 
-	public static function setSubject ($data, $type = 'rehearsal')
+	public static function setSubject ($data, $id, $type = 'rehearsal')
 	{
-		$params = ComponentHelper::getParams('com_tempus');
+		$template = TempusHelper::get($type, $id);
+		$notifications = json_decode($template->notifications, true);
 
-		$subject = $params->get($type . '_subject');
+		$subject = $notifications[$type . '_subject'];
 
 		foreach ($data as $key => $value) {
 			$replace = '{' . $key . '}';

@@ -154,6 +154,12 @@ class TempusModelRehearsal extends AdminModel
 			$item->convocation = $convocation;
 		}
 
+		if ($item && property_exists($item, 'notifications'))
+		{
+			$registry = new Registry($item->notifications);
+			$item->notifications = $registry->toArray();
+		}
+
 		if ($item AND property_exists($item, 'start_date'))
 		{
 			$startDate = new DateTime($item->start_date);

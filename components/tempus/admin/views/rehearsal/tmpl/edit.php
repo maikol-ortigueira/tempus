@@ -133,13 +133,15 @@ $document->addStyleSheet(Uri::root() . 'media/com_tempus/css/form.css');
 		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 		<!-- Fin de segunda pestaña -->
 		<!-- Pestaña notificaciones -->
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'notification', Text::_('Notificaciones', true)) ; ?>
-			<div class="row-fluid">
-				<div class="span12">
-					<?php echo $this->form->renderFieldset('emails') ; ?>
+		<?php if ((int) $this->item->id > 0) : ; ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'notification', Text::_('Notificaciones', true)) ; ?>
+				<div class="row-fluid">
+					<div class="span12">
+						<?php echo $this->form->renderFieldset('emails') ; ?>
+					</div>
 				</div>
-			</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab') ; ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab') ; ?>
+		<?php endif ; ?>
 		<!-- Fin pestaña notificaciones -->
 	<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 	<!-- Cierre de pestañas -->

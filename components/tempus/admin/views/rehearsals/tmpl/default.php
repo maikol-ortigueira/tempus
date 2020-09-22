@@ -107,9 +107,14 @@ $sortFields = $this->getSortFields();
 					$canEditOwn = $user->authorise('core.edit.own', 'com_tempus');
 					$canCheckin = $user->authorise('core.manage', 'com_tempus');
 					$canChange  = $user->authorise('core.edit.state', 'com_tempus');
-					$concert = TempusHelper::getValues(['title', 'concert_date'],'#__tempus_concerts','id',$item->concert_id);
-
-					$concert = '<div>' . $concert['title'] . '<br><span class="small">'	. HTMLHelper::date($concert['concert_date'], Text::_('COM_TEMPUS_LIST_DATE_FORMAT')) . '</span></div>' ;
+					if ($item->concert_id != '0')
+					{
+						$concert = '<div>' . $concert->title . '<br><span class="small">'	. HTMLHelper::date($concert->concert_date, Text::_('COM_TEMPUS_LIST_DATE_FORMAT')) . '</span></div>' ;
+					}
+					else
+					{
+						$concert = '';
+					}
 
 					?>
 
@@ -150,7 +155,7 @@ $sortFields = $this->getSortFields();
 							</td><!-- Fin columna id -->
 							<td><!-- Columna nombre -->
 								<?php if ($item->checked_out) : ?>
-									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'rehearsals.', $canCheckin); ?>
+									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->uEditor, $item->checked_out_time, 'rehearsals.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_tempus&task=rehearsal.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>">
