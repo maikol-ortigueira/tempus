@@ -86,6 +86,7 @@ class TempusViewSinger extends \Joomla\CMS\MVC\View\HtmlView
 		if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create'))))
 		{
 			JToolBarHelper::apply('singer.saveProfile', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('singer.saveProfileAndClose', 'JTOOLBAR_SAVE');
 		}
 
 		// Button for version control

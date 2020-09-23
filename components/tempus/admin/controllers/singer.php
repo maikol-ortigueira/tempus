@@ -33,7 +33,7 @@ class TempusControllerSinger extends \Joomla\CMS\MVC\Controller\FormController
 		parent::__construct();
 	}
 
-	public function saveProfile()
+	public function saveProfile($close = false)
 	{
 		$data = $this->input->get('jform', 'ARRAY', Array());
 		$userId = $this->input->get('id');
@@ -89,6 +89,18 @@ class TempusControllerSinger extends \Joomla\CMS\MVC\Controller\FormController
 				return false;
 			}
 		}
-		$this->setRedirect('index.php?option=com_tempus&view=singer&layout=edit&id=' . $userId);
+		if ($close) 
+		{
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_tempus&view=singer&layout=edit&id=' . $userId);
+		}
+	}
+
+	public function saveProfileAndClose()
+	{
+		$this->saveProfile(true);
 	}
 }

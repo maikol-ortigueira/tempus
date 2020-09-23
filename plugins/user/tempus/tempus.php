@@ -230,6 +230,7 @@ class PlgUserTempus extends JPlugin
 
 		$fields = array(
 			'range',
+			'lastname',
 			'address1',
 			'address2',
 			'city',
@@ -248,6 +249,7 @@ class PlgUserTempus extends JPlugin
 
 		if ($app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
 		{
+			$form->setFieldAttribute('lastname', 'description', 'PLG_USER_TEMPUS_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_TEMPUS_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_TEMPUS_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('city', 'description', 'PLG_USER_TEMPUS_FILL_FIELD_DESC_SITE', 'profile');
@@ -262,6 +264,7 @@ class PlgUserTempus extends JPlugin
 
 		if ($name === 'com_tempus.singer')
 		{
+			$form->setFieldAttribute('lastname', 'readonly', 'true', 'profile');
 			$form->setFieldAttribute('address1', 'readonly', 'true', 'profile');
 			$form->setFieldAttribute('address2', 'readonly', 'true', 'profile');
 			$form->setFieldAttribute('city', 'readonly', 'true', 'profile');
